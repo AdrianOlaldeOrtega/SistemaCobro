@@ -74,11 +74,11 @@ public class RegistrarPago extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Alumno");
+        jLabel4.setText("No. Control Alumno");
 
         Fecha_Pago.setDateFormatString("yyyy-MM-dd");
 
-        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripción", "Mensualidad", "Certificación" }));
+        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripción", "Mensualidad", "Certificación", "Sin Especificar" }));
         Concepto_Pago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Concepto_PagoActionPerformed(evt);
@@ -92,25 +92,21 @@ public class RegistrarPago extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Nombre_Alumno)
+                    .addComponent(Monto_Pago)
+                    .addComponent(Fecha_Pago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(70, 70, 70)
-                        .addComponent(Nombre_Alumno))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Monto_Pago)
-                            .addComponent(Fecha_Pago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancelar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(Concepto_Pago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(Concepto_Pago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,19 +152,21 @@ public class RegistrarPago extends javax.swing.JFrame {
         if (f != null) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String x = df.format(f);
-            System.out.println(x);
+            //System.out.println(x);
             if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
                 try {
                     conn = ConexionSQL.conectar();
                     String sentencia = "Insert into PAGO (FechaP,Monto,ALUMNO_NumeroControl,Concepto) values (?,?,?,?)";
                     st = conn.prepareStatement(sentencia);
-                    st.setString(1, String.valueOf(Concepto_Pago.getSelectedItem()));
+                    st.setString(1, x);
                     st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
                     st.setInt(3, Integer.parseInt(Nombre_Alumno.getText()));
+                    st.setString(4, Concepto_Pago.getSelectedItem().toString());
                     
                     int res = st.executeUpdate();
                     if (res > 0) {
                         JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
                     }
@@ -186,6 +184,44 @@ public class RegistrarPago extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void ReducirDeuda(){
+        try{
+            String query= "SELECT MontoAPagar, Motivo FROM DEUDA WHERE ALUMNO_NumeroControl = ?";
+            conn=ConexionSQL.conectar();
+            st=conn.prepareStatement(query);
+            st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+            rs=st.executeQuery();
+            while(rs.next()){
+                if(Concepto_Pago.getSelectedItem().toString().equals("Sin Especificar")){
+                    Double[] Deudas = new Double[4];
+                    //1. Libro, 2. Inscripción, 3. Mensualidad, 4. Certificación
+                    String motivo =rs.getString(2);
+                    switch (motivo){
+                        case "Libro":
+                            Deudas[0] += rs.getDouble(1);
+                            break;
+                        case "Inscripción":
+                            Deudas[1] += rs.getDouble(1);
+                            break;
+                        case "Mensualidad":
+                            Deudas[2] += rs.getDouble(1);
+                            break;
+                        case "Certificación":
+                            Deudas[3] += rs.getDouble(1);
+                            break;
+                    }
+                }
+                else if(rs.getString(2).equals(Concepto_Pago.getSelectedItem()) && !Concepto_Pago.getSelectedItem().toString().equals("Sin Especificar")){
+                    double MontoPagar=rs.getDouble(1);
+                    MontoPagar -= Double.parseDouble(Monto_Pago.getText());
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
     private com.toedter.calendar.JDateChooser Fecha_Pago;
