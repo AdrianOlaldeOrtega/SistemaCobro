@@ -18,7 +18,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         Panel_fondo_menu.setVisible(false);
-
+Panel_Menu_Finanzas.setVisible(false);
         Panel_menu.setVisible(false);
     
        
@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame {
 
         Panel_principal = new javax.swing.JPanel();
         btnmenu = new javax.swing.JButton();
+        Panel_Menu_Finanzas = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         Panel_menu = new javax.swing.JPanel();
         btn1 = new javax.swing.JButton();
         btn3 = new javax.swing.JButton();
@@ -59,23 +62,70 @@ public class Principal extends javax.swing.JFrame {
         });
         Panel_principal.add(btnmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 10, 70, 70));
 
+        Panel_Menu_Finanzas.setBackground(new java.awt.Color(255, 255, 255));
+        Panel_Menu_Finanzas.setOpaque(false);
+        Panel_Menu_Finanzas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Panel_Menu_FinanzasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Panel_Menu_FinanzasMouseExited(evt);
+            }
+        });
+        Panel_Menu_Finanzas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton2.setText("Registrar Deuda");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton2MouseExited(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Finanzas.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 100, 40));
+
+        jButton1.setText("Registrar Pago");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1MouseExited(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Finanzas.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, 40));
+
+        Panel_principal.add(Panel_Menu_Finanzas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 130, -1));
+
         Panel_menu.setBackground(new java.awt.Color(167, 167, 167));
         Panel_menu.setOpaque(false);
         Panel_menu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Panel_menuMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 Panel_menuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Panel_menuMouseExited(evt);
             }
         });
         Panel_menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn1.setBackground(new java.awt.Color(37, 66, 70));
         btn1.setForeground(new java.awt.Color(240, 240, 240));
-        btn1.setText("Registrar pago");
+        btn1.setText("Finanzas");
         btn1.setToolTipText("");
         btn1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(240, 240, 240), new java.awt.Color(240, 240, 240), new java.awt.Color(51, 51, 51), new java.awt.Color(102, 102, 102)));
+        btn1.setBorderPainted(false);
         btn1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn1MouseEntered(evt);
@@ -95,6 +145,7 @@ public class Principal extends javax.swing.JFrame {
         btn3.setForeground(new java.awt.Color(240, 240, 240));
         btn3.setText("Consultar");
         btn3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(240, 240, 240), new java.awt.Color(240, 240, 240), new java.awt.Color(51, 51, 51), new java.awt.Color(102, 102, 102)));
+        btn3.setBorderPainted(false);
         btn3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn3MouseEntered(evt);
@@ -114,6 +165,7 @@ public class Principal extends javax.swing.JFrame {
         btn2.setForeground(new java.awt.Color(240, 240, 240));
         btn2.setText("Registrar alumno");
         btn2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(240, 240, 240), new java.awt.Color(240, 240, 240), new java.awt.Color(51, 51, 51), new java.awt.Color(102, 102, 102)));
+        btn2.setBorderPainted(false);
         btn2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn2MouseEntered(evt);
@@ -133,6 +185,7 @@ public class Principal extends javax.swing.JFrame {
         btn4.setForeground(new java.awt.Color(240, 240, 240));
         btn4.setText("Registrar usuario");
         btn4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(240, 240, 240), new java.awt.Color(240, 240, 240), new java.awt.Color(51, 51, 51), new java.awt.Color(102, 102, 102)));
+        btn4.setBorderPainted(false);
         btn4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn4MouseEntered(evt);
@@ -171,7 +224,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn1MouseEntered
         // TODO add your handling code here:
-     
+        Panel_Menu_Finanzas.setVisible(true);
         Panel_menu.setVisible(true);
 
         Panel_fondo_menu.setVisible(true);
@@ -179,7 +232,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn1MouseExited
         // TODO add your handling code here:
-       
+       Panel_Menu_Finanzas.setVisible(false);
         Panel_menu.setVisible(false);
         Panel_fondo_menu.setVisible(false);
     }//GEN-LAST:event_btn1MouseExited
@@ -242,10 +295,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnmenuMouseExited
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-RegistrarPago regpag = new RegistrarPago();
-        regpag.setTitle("Registrar Pago");
-        regpag.setLocationRelativeTo(null);
-        regpag.setVisible(true);        
+        
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
@@ -282,6 +332,50 @@ RegistrarPago regpag = new RegistrarPago();
         us.setLocationRelativeTo(null);
         us.setVisible(true);
     }//GEN-LAST:event_btn4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        RegistrarPago regpag = new RegistrarPago();
+        regpag.setTitle("Registrar Pago");
+        regpag.setLocationRelativeTo(null);
+        regpag.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void Panel_Menu_FinanzasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_FinanzasMouseEntered
+        Panel_Menu_Finanzas.setVisible(true);
+        Panel_menu.setVisible(true);
+    }//GEN-LAST:event_Panel_Menu_FinanzasMouseEntered
+
+    private void Panel_Menu_FinanzasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_FinanzasMouseExited
+        Panel_Menu_Finanzas.setVisible(false);
+        Panel_menu.setVisible(false);
+    }//GEN-LAST:event_Panel_Menu_FinanzasMouseExited
+
+    private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
+        Panel_Menu_Finanzas.setVisible(true);
+        Panel_menu.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseEntered
+
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+       Panel_Menu_Finanzas.setVisible(true);
+       Panel_menu.setVisible(true);
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
+        Panel_Menu_Finanzas.setVisible(false);
+        Panel_menu.setVisible(false);
+    }//GEN-LAST:event_jButton2MouseExited
+
+    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
+        Panel_Menu_Finanzas.setVisible(false);
+        Panel_menu.setVisible(false);
+    }//GEN-LAST:event_jButton1MouseExited
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        RegistrarDeuda vdeuda = new RegistrarDeuda();
+        vdeuda.setTitle("Registrar Deuda");
+        vdeuda.setLocationRelativeTo(null);
+        vdeuda.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
     
 
     /**
@@ -323,6 +417,7 @@ RegistrarPago regpag = new RegistrarPago();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Panel_Menu_Finanzas;
     private javax.swing.JPanel Panel_fondo_menu;
     private javax.swing.JPanel Panel_menu;
     private javax.swing.JPanel Panel_principal;
@@ -331,6 +426,8 @@ RegistrarPago regpag = new RegistrarPago();
     private javax.swing.JButton btn3;
     private javax.swing.JButton btn4;
     private javax.swing.JButton btnmenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

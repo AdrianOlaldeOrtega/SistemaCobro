@@ -5,30 +5,22 @@
  */
 package SistemaCobro;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.*;
 import javax.swing.JOptionPane;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
  * @author LEVEN
  */
-public class RegistrarPago extends javax.swing.JFrame {
-
+public class RegistrarDeuda extends javax.swing.JFrame {
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
     ResultSet rs;
     Connection conn;
-
     /**
      * Creates new form NewJFrame
      */
-    public RegistrarPago() {
+    public RegistrarDeuda() {
         initComponents();
     }
 
@@ -41,7 +33,6 @@ public class RegistrarPago extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         Monto_Pago = new javax.swing.JTextField();
@@ -49,12 +40,9 @@ public class RegistrarPago extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         Nombre_Alumno = new javax.swing.JTextField();
-        Fecha_Pago = new com.toedter.calendar.JDateChooser();
         Concepto_Pago = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setText("Fecha:");
 
         jLabel2.setText("Monto:");
 
@@ -74,9 +62,7 @@ public class RegistrarPago extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Alumno");
-
-        Fecha_Pago.setDateFormatString("yyyy-MM-dd");
+        jLabel4.setText("No. Control");
 
         Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripción", "Mensualidad", "Certificación" }));
         Concepto_Pago.addActionListener(new java.awt.event.ActionListener() {
@@ -89,42 +75,36 @@ public class RegistrarPago extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(70, 70, 70)
                         .addComponent(Nombre_Alumno))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Monto_Pago)
-                            .addComponent(Fecha_Pago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancelar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(Concepto_Pago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(Concepto_Pago, 0, 190, Short.MAX_VALUE))))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(Fecha_Pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(Nombre_Alumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Monto_Pago, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -136,7 +116,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btnCancelar))
-                .addGap(38, 38, 38))
+                .addGap(75, 75, 75))
         );
 
         pack();
@@ -151,49 +131,35 @@ public class RegistrarPago extends javax.swing.JFrame {
     }//GEN-LAST:event_Concepto_PagoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        Date f = Fecha_Pago.getDate();
-        if (f != null) {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String x = df.format(f);
-            System.out.println(x);
-            if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
-                try {
-                    conn = ConexionSQL.conectar();
-                    String sentencia = "Insert into PAGO (FechaP,Monto,ALUMNO_NumeroControl,Concepto) values (?,?,?,?)";
-                    st = conn.prepareStatement(sentencia);
-                    st.setString(1, String.valueOf(Concepto_Pago.getSelectedItem()));
-                    st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
-                    st.setInt(3, Integer.parseInt(Nombre_Alumno.getText()));
-                    
-                    int res = st.executeUpdate();
-                    if (res > 0) {
-                        JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
-                    }
-                    st.close();
-                } catch (Exception e) {
-                    System.out.println(e);
+        if(!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()){
+            try{
+                conn = ConexionSQL.conectar();
+                String sentencia = "Insert into DEUDA (Motivo,MontoAPagar,ALUMNO_NumeroControl) values (?,?,?)";
+                st = conn.prepareStatement(sentencia);
+                st.setString(1,String.valueOf(Concepto_Pago.getSelectedItem()));
+                st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
+                st.setInt(3,Integer.parseInt(Nombre_Alumno.getText()));
+                int res = st.executeUpdate();
+                if (res > 0){
+                    JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
+                st.close();
+            }catch(Exception e ){
+                System.out.println(e);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
+            JOptionPane.showMessageDialog(null,"Revise que todos los campos esten llenos");
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
-    private com.toedter.calendar.JDateChooser Fecha_Pago;
     private javax.swing.JTextField Monto_Pago;
     private javax.swing.JTextField Nombre_Alumno;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
