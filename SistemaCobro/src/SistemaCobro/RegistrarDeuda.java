@@ -139,6 +139,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 //hacemos una consulta para ver si el alumno tiene deuda y si tiene deuda en este concepto
                 String sentencia = "SELECT " + motivo + ", Saldo FROM DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
                 System.out.println(sentencia);
+                st = conn.prepareStatement(sentencia);
                 rs = st.executeQuery(sentencia);
                 //Verificamos si arroja un resultado
                 if (rs.next()) {
@@ -148,18 +149,18 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                     if (total < 0) {
                         total = total * (-1);
                         sentencia = "UPDATE DEUDA set Saldo = " + total + " where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                        stt.executeQuery(sentencia);
+                        st.executeQuery(sentencia);
                     } //Si el total es positivo signifca que el saldo a favor no era suficiente, por que se debe poner en cero el saldo
                     //y poner la deuda restante en el concepto correponidente
                     else {
                         sentencia = "UPDATE DEUDA set " + motivo + " = " + total + " ,Saldo = 0.0 where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                        stt.executeQuery(sentencia);
+                        st.executeQuery(sentencia);
                     }
 
                 } else {
                     //Si este alumno no ha tenido una deuda se crea su registro
                     sentencia = "Insert into DEUDA (ALUMNO_NumeroControl,Libro,Inscripcion,Mensualidad,Certificacion,Saldo) values (?,?,?,?,?,?)";
-                    st = conn.prepareStatement(sentencia);
+                    
                     switch (motivo) {
                         case "Libro":
                             st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
