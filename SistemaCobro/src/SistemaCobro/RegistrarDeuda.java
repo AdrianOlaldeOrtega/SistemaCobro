@@ -138,7 +138,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 conn = ConexionSQL.conectar();
                 //hacemos una consulta para ver si el alumno tiene deuda y si tiene deuda en este concepto
                 String sentencia = "select " + motivo + " ,Saldo from DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                rs = stt.executeQuery(sentencia);
+                rs = st.executeQuery(sentencia);
                 //Verificamos si arroja un resultado
                 if (rs.next()) {
                     double total = rs.getDouble(1) + Double.valueOf(Monto_Pago.getText()) - rs.getDouble(2);
