@@ -13,10 +13,13 @@ import javax.swing.JOptionPane;
  * @author LEVEN
  */
 public class RegistrarDeuda extends javax.swing.JFrame {
+
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
+    Statement stt;
     ResultSet rs;
     Connection conn;
+
     /**
      * Creates new form NewJFrame
      */
@@ -129,26 +132,80 @@ public class RegistrarDeuda extends javax.swing.JFrame {
     }//GEN-LAST:event_Concepto_PagoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()){
-            try{
+        String motivo = String.valueOf(Concepto_Pago.getSelectedItem());
+        if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
+            try {
                 conn = ConexionSQL.conectar();
-                String sentencia = "Insert into DEUDA (Motivo,MontoAPagar,ALUMNO_NumeroControl) values (?,?,?)";
-                st = conn.prepareStatement(sentencia);
-                st.setString(1,String.valueOf(Concepto_Pago.getSelectedItem()));
-                st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
-                st.setInt(3,Integer.parseInt(Nombre_Alumno.getText()));
+                //hacemos una consulta para ver si el alumno tiene deuda y si tiene deuda en este concepto
+                String sentencia = "select " + motivo + " ,Saldo from DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                rs = stt.executeQuery(sentencia);
+                //Verificamos si arroja un resultado
+                if (rs.next()) {
+                    double total = rs.getDouble(1) + Double.valueOf(Monto_Pago.getText()) - rs.getDouble(2);
+                    //Revisamos si con el saldo a favor que tenia paga la deuda
+                    //Si el resultado es negativo, solo actualizamos el valor de Slado al slado restante
+                    if (total < 0) {
+                        total = total * (-1);
+                        sentencia = "UPDATE DEUDA set Saldo = " + total + " where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        stt.executeQuery(sentencia);
+                    } //Si el total es positivo signifca que el saldo a favor no era suficiente, por que se debe poner en cero el saldo
+                    //y poner la deuda restante en el concepto correponidente
+                    else {
+                        sentencia = "UPDATE DEUDA set " + motivo + " = " + total + " ,Saldo = 0.0 where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        stt.executeQuery(sentencia);
+                    }
+
+                } else {
+                    //Si este alumno no ha tenido una deuda se crea su registro
+                    sentencia = "Insert into DEUDA (ALUMNO_NumeroControl,Libro,Inscripcion,Mensualidad,Certificacion,Saldo) values (?,?,?,?,?,?)";
+                    st = conn.prepareStatement(sentencia);
+                    switch (motivo) {
+                        case "Libro":
+                            st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+                            st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
+                            st.setDouble(3, 0.0);
+                            st.setDouble(4, 0.0);
+                            st.setDouble(5, 0.0);
+                            st.setDouble(6, 0.0);
+                            break;
+                        case "Insripción":
+                            st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+                            st.setDouble(2, 0.0);
+                            st.setDouble(3, Double.valueOf(Monto_Pago.getText()));
+                            st.setDouble(4, 0.0);
+                            st.setDouble(5, 0.0);
+                            st.setDouble(6, 0.0);
+                            break;
+                        case "Mensualidad":
+                            st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+                            st.setDouble(2, 0.0);
+                            st.setDouble(3, 0.0);
+                            st.setDouble(4, Double.valueOf(Monto_Pago.getText()));
+                            st.setDouble(5, 0.0);
+                            st.setDouble(6, 0.0);
+                            break;
+                        case "Certificación":
+                            st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+                            st.setDouble(2, 0.0);
+                            st.setDouble(3, 0.0);
+                            st.setDouble(4, 0.0);
+                            st.setDouble(5, Double.valueOf(Monto_Pago.getText()));
+                            st.setDouble(6, 0.0);
+                            break;
+                    }
+                }
                 int res = st.executeUpdate();
-                if (res > 0){
+                if (res > 0) {
                     JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
                 }
                 st.close();
-            }catch(Exception e ){
+            } catch (Exception e) {
                 System.out.println(e);
             }
-        }else{
-            JOptionPane.showMessageDialog(null,"Revise que todos los campos esten llenos");
+        } else {
+            JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

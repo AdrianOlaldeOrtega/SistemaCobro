@@ -88,7 +88,7 @@ Panel_Menu_Finanzas.setVisible(false);
                 jButton2ActionPerformed(evt);
             }
         });
-        Panel_Menu_Finanzas.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 100, 40));
+        Panel_Menu_Finanzas.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, 40));
 
         jButton1.setText("Registrar Pago");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,9 +104,9 @@ Panel_Menu_Finanzas.setVisible(false);
                 jButton1ActionPerformed(evt);
             }
         });
-        Panel_Menu_Finanzas.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, 40));
+        Panel_Menu_Finanzas.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 140, 40));
 
-        Panel_principal.add(Panel_Menu_Finanzas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 130, -1));
+        Panel_principal.add(Panel_Menu_Finanzas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 210, -1));
 
         Panel_menu.setBackground(new java.awt.Color(167, 167, 167));
         Panel_menu.setOpaque(false);

@@ -8,6 +8,7 @@ package SistemaCobro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -23,6 +24,7 @@ public class RegistrarPago extends javax.swing.JFrame {
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
     ResultSet rs;
+    Statement stt;
     Connection conn;
 
     /**
@@ -162,66 +164,136 @@ public class RegistrarPago extends javax.swing.JFrame {
                     st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
                     st.setInt(3, Integer.parseInt(Nombre_Alumno.getText()));
                     st.setString(4, Concepto_Pago.getSelectedItem().toString());
-                    
+
                     int res = st.executeUpdate();
                     if (res > 0) {
                         JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
                     }
                     st.close();
+                    ReducirDeuda();
                 } catch (Exception e) {
                     System.out.println(e);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
         }
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void ReducirDeuda(){
-        try{
-            String query= "SELECT MontoAPagar, Motivo FROM DEUDA WHERE ALUMNO_NumeroControl = ?";
-            conn=ConexionSQL.conectar();
-            st=conn.prepareStatement(query);
+    public void ReducirDeuda() {
+        try {
+            //hacemos la consulta para ver si dicho alumno tiene alguna deuda
+            String query = "SELECT Libro,Inscripcion,Mensualidad,Certificacion,Saldo FROM DEUDA WHERE ALUMNO_NumeroControl = ?";
+            conn = ConexionSQL.conectar();
+            st = conn.prepareStatement(query);
             st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
-            rs=st.executeQuery();
-            while(rs.next()){
-                if(Concepto_Pago.getSelectedItem().toString().equals("Sin Especificar")){
-                    Double[] Deudas = new Double[4];
-                    //1. Libro, 2. Inscripción, 3. Mensualidad, 4. Certificación
-                    String motivo =rs.getString(2);
-                    switch (motivo){
+            rs = st.executeQuery();
+            //Comprobamos si nos arrojo un resultado
+            if (rs.next()) {
+                //En caso de que no se especifique un motivo
+                if (Concepto_Pago.getSelectedItem().toString().equals("Sin Especificar")) {
+                    Double monto = Double.valueOf(Monto_Pago.getText());
+                    Double Libro, Inscripcion, Mensualidad, Certificacion, Saldo;
+                    Libro = rs.getDouble(1);
+                    Inscripcion = rs.getDouble(2);
+                    Mensualidad = rs.getDouble(3);
+                    Certificacion = rs.getDouble(4);
+                    Saldo = rs.getDouble(5);
+                    Double temp = 0.0;
+                    if (monto > 0.0) {
+                        temp = monto - Libro;
+                        if (temp > 0.0) {
+                            Libro = 0.0;
+                            monto = temp;
+                            temp = monto - Inscripcion;
+                            if (temp > 0.0) {
+                                Inscripcion = 0.0;
+                                monto = temp;
+                                temp = monto - Mensualidad;
+                                if (temp > 0.0) {
+                                    Mensualidad = 0.0;
+                                    monto = temp;
+                                    temp = monto - Certificacion;
+                                    if (temp > 0.0) {
+                                        Certificacion = 0.0;
+                                        monto = temp;
+                                        Saldo = Saldo + monto;
+                                    } else {
+                                        Certificacion = Certificacion - monto;
+                                        monto = 0.0;
+                                    }
+                                } else {
+                                    Mensualidad = Mensualidad - monto;
+                                    monto = 0.0;
+                                }
+                            } else {
+                                Inscripcion = Inscripcion - monto;
+                                monto = 0.0;
+                            }
+                        } else {
+                            Libro = Libro - monto;
+                            monto = 0.0;
+                        }
+                        query = "Update DEUDA SET Libro = " + Libro 
+                                + ", Inscripcion = " + Inscripcion 
+                                +", Mensualidad = "+Mensualidad 
+                                + ", Certificacion = "+ Certificacion 
+                                + ", Saldo = "+Saldo+" WHERE ALUMNO_NumeroControl ="+Nombre_Alumno.getText();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar una cantidad mayor a 0");
+                    }
+                } else {
+                    //Cuando se especifica un motivo
+                    String concepto = String.valueOf(Concepto_Pago.getSelectedItem());
+                    Double monto = Double.valueOf(Monto_Pago.getText());
+                    Double deuda = 0.0;
+                    String concepto_sent = "";
+                    switch (concepto) {
+                        //restamos la deuda que se tenga en este rubro y se le resta el monto pagado
                         case "Libro":
-                            Deudas[0] += rs.getDouble(1);
+                            deuda = rs.getDouble(1);
+                            deuda = deuda - monto;
+                            concepto_sent = "Libro";
                             break;
-                        case "Inscripción":
-                            Deudas[1] += rs.getDouble(1);
+                        case "Insripción":
+                            deuda = rs.getDouble(1);
+                            deuda = deuda - monto;
+                            concepto_sent = "Insripción";
                             break;
                         case "Mensualidad":
-                            Deudas[2] += rs.getDouble(1);
+                            deuda = rs.getDouble(1);
+                            deuda = deuda - monto;
+                            concepto_sent = "Mensualidad";
                             break;
                         case "Certificación":
-                            Deudas[3] += rs.getDouble(1);
+                            deuda = rs.getDouble(1);
+                            deuda = deuda - monto;
+                            concepto_sent = "Certificación";
                             break;
                     }
+                    query = "UPDATE DEUDA SET " + concepto_sent + " = " + deuda + " Where WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                    st.executeUpdate(query);
                 }
-                else if(rs.getString(2).equals(Concepto_Pago.getSelectedItem()) && !Concepto_Pago.getSelectedItem().toString().equals("Sin Especificar")){
-                    double MontoPagar=rs.getDouble(1);
-                    MontoPagar -= Double.parseDouble(Monto_Pago.getText());
-                }
+            } else {
+                //Si el alumno no tiene aun una deuda, se le asigna al valor Saldo, que es el saldo a favor que tiene
+                query = "Insert into DEUDA (ALUMNO_NumeroControl,Libro,Inscripcion,Mensualidad,Certificacion,Saldo) values (?,0.0,0.0,0.0,0.0,?)";
+                st = conn.prepareStatement(query);
+                st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
+                st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
     private com.toedter.calendar.JDateChooser Fecha_Pago;
