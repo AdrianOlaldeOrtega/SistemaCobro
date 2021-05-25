@@ -19,7 +19,7 @@ public class ConexionSQL {
     public static Connection conectar() {
         Connection connect = null;
         try {
-            String url = "jdbc:mysql://localhost:3306/prestige";
+            String url = "jdbc:mysql://localhost:3306/englishschoolprestige";
             String user = JOptionPane.showInputDialog("Usuario");
             String password = JOptionPane.showInputDialog("contraseña");
             connect = DriverManager.getConnection(url, user, password);

@@ -67,7 +67,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
 
         jLabel4.setText("No. Control");
 
-        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripción", "Mensualidad", "Certificación" }));
+        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripcion", "Mensualidad", "Certificación" }));
         Concepto_Pago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Concepto_PagoActionPerformed(evt);
@@ -137,7 +137,8 @@ public class RegistrarDeuda extends javax.swing.JFrame {
             try {
                 conn = ConexionSQL.conectar();
                 //hacemos una consulta para ver si el alumno tiene deuda y si tiene deuda en este concepto
-                String sentencia = "select " + motivo + " ,Saldo from DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                String sentencia = "SELECT " + motivo + ", Saldo FROM DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                System.out.println(sentencia);
                 rs = st.executeQuery(sentencia);
                 //Verificamos si arroja un resultado
                 if (rs.next()) {
