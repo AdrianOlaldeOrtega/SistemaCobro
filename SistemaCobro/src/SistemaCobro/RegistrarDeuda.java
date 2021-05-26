@@ -67,7 +67,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
 
         jLabel4.setText("No. Control");
 
-        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripcion", "Mensualidad", "Certificación" }));
+        Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Inscripcion", "Mensualidad", "Certificacion" }));
         Concepto_Pago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Concepto_PagoActionPerformed(evt);
@@ -136,31 +136,33 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
             try {
                 conn = ConexionSQL.conectar();
+                stt = conn.createStatement();
                 //hacemos una consulta para ver si el alumno tiene deuda y si tiene deuda en este concepto
-                String sentencia = "SELECT " + motivo + ", Saldo FROM DEUDA where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                System.out.println(sentencia);
+                String sentencia = "SELECT " + motivo + ", Saldo FROM deuda where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                rs = stt.executeQuery(sentencia);
                 st = conn.prepareStatement(sentencia);
-                rs = st.executeQuery(sentencia);
                 //Verificamos si arroja un resultado
                 if (rs.next()) {
                     double total = rs.getDouble(1) + Double.valueOf(Monto_Pago.getText()) - rs.getDouble(2);
                     //Revisamos si con el saldo a favor que tenia paga la deuda
                     //Si el resultado es negativo, solo actualizamos el valor de Slado al slado restante
+                    System.out.println(total);
                     if (total < 0) {
                         total = total * (-1);
-                        sentencia = "UPDATE DEUDA set Saldo = " + total + " where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                        st.executeQuery(sentencia);
+                        sentencia = "UPDATE DEUDA set " + motivo + " = 0 ,Saldo = "+ total+ " where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        stt.executeUpdate(sentencia);
                     } //Si el total es positivo signifca que el saldo a favor no era suficiente, por que se debe poner en cero el saldo
                     //y poner la deuda restante en el concepto correponidente
+                    //probado
                     else {
-                        sentencia = "UPDATE DEUDA set " + motivo + " = " + total + " ,Saldo = 0.0 where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
-                        st.executeQuery(sentencia);
+                        sentencia = "UPDATE DEUDA set " + motivo + " = " + total + " ,Saldo = 0 where ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        stt.executeUpdate(sentencia);
                     }
-
+                //probado
                 } else {
                     //Si este alumno no ha tenido una deuda se crea su registro
                     sentencia = "Insert into DEUDA (ALUMNO_NumeroControl,Libro,Inscripcion,Mensualidad,Certificacion,Saldo) values (?,?,?,?,?,?)";
-                    
+                    st = conn.prepareStatement(sentencia);
                     switch (motivo) {
                         case "Libro":
                             st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
@@ -186,7 +188,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                             st.setDouble(5, 0.0);
                             st.setDouble(6, 0.0);
                             break;
-                        case "Certificación":
+                        case "Certificacion":
                             st.setInt(1, Integer.parseInt(Nombre_Alumno.getText()));
                             st.setDouble(2, 0.0);
                             st.setDouble(3, 0.0);
@@ -195,12 +197,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                             st.setDouble(6, 0.0);
                             break;
                     }
-                }
-                int res = st.executeUpdate();
-                if (res > 0) {
-                    JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
+                    st.executeUpdate();
                 }
                 st.close();
             } catch (Exception e) {
@@ -209,6 +206,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
         }
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
