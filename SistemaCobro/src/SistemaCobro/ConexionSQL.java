@@ -20,9 +20,9 @@ public class ConexionSQL {
         Connection connect = null;
         try {
             String url = "jdbc:mysql://localhost:3306/englishschoolprestige";
-            //String user = JOptionPane.showInputDialog("Usuario");
-            //String password = JOptionPane.showInputDialog("contraseña");
-            connect = DriverManager.getConnection(url, "root", "yamir");
+            String user = JOptionPane.showInputDialog("Usuario SQL");
+            String password = JOptionPane.showInputDialog("contraseña SQL");
+            connect = DriverManager.getConnection(url, user, password);
             if (connect != null) {
                 System.out.println("Conexion exitosa");
             } else {
