@@ -118,7 +118,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 Nombre_AlumnoActionPerformed(evt);
             }
         });
-        jPanel1.add(Nombre_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 300, 40));
+        jPanel1.add(Nombre_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 300, 40));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -134,7 +134,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 Monto_PagoActionPerformed(evt);
             }
         });
-        jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 280, 40));
+        jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 280, 40));
 
         Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         Concepto_Pago.setForeground(new java.awt.Color(255, 255, 255));
