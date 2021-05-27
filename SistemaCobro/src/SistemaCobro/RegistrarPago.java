@@ -52,7 +52,7 @@ public class RegistrarPago extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnMin = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Fecha_Pago = new com.toedter.calendar.JDateChooser();
         Nombre_Alumno = new javax.swing.JTextField();
@@ -90,15 +90,15 @@ public class RegistrarPago extends javax.swing.JFrame {
         });
         jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(10, 31, 34));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnMin.setBackground(new java.awt.Color(10, 31, 34));
+        btnMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
+        btnMin.setBorder(null);
+        btnMin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnMinActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, -1));
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -107,7 +107,7 @@ public class RegistrarPago extends javax.swing.JFrame {
 
         Fecha_Pago.setBackground(new java.awt.Color(10, 31, 34));
         Fecha_Pago.setDateFormatString("yyyy-MM-dd");
-        jPanel1.add(Fecha_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 109, 237, 40));
+        jPanel1.add(Fecha_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 109, 280, 40));
 
         Nombre_Alumno.setBackground(new java.awt.Color(10, 31, 34));
         Nombre_Alumno.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
@@ -136,7 +136,7 @@ public class RegistrarPago extends javax.swing.JFrame {
         });
         jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 280, 40));
 
-        Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         Concepto_Pago.setForeground(new java.awt.Color(255, 255, 255));
         Concepto_Pago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Insripcion", "Mensualidad", "Certificacion", "Sin Especificar" }));
         Concepto_Pago.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +202,7 @@ public class RegistrarPago extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_us_dollar_40px.png"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 49, 35));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 590));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -263,12 +263,12 @@ public class RegistrarPago extends javax.swing.JFrame {
     }//GEN-LAST:event_Monto_PagoActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
+        dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
         this.setExtendedState(ICONIFIED);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnMinActionPerformed
 
     public void ReducirDeuda() {
         try {
@@ -399,8 +399,8 @@ public class RegistrarPago extends javax.swing.JFrame {
     private javax.swing.JTextField Nombre_Alumno;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMin;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
