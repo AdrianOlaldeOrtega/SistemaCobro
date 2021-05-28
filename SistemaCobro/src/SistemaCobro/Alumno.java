@@ -5,20 +5,92 @@
  */
 package SistemaCobro;
 
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowStateListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
-/**
- *
- * @author LEVEN
- */
-public class Alumno extends javax.swing.JFrame {
+public class Alumno extends javax.swing.JFrame implements MouseListener {
 
-    /**
-     * Creates new form Deudores
-     */
+    ConexionSQL conexion = new ConexionSQL();
+    PreparedStatement st;
+    ResultSet rs;
+    Statement stt;
+    Connection conn;
+
+    JLabel label = new JLabel();
+    ImageIcon iconoinfo = new ImageIcon("/Imagenes/info.png");
+
     public Alumno() {
         initComponents();
+        TableColumn columnaAlumno;
+        columnaAlumno = TablaAlumno.getColumnModel().getColumn(1);
+        columnaAlumno.setPreferredWidth(220);
+        TableColumn columnaEstado;
+        columnaEstado = TablaAlumno.getColumnModel().getColumn(2);
+        columnaEstado.setPreferredWidth(40);
+        TableColumn columnaNumeroControl;
+        columnaNumeroControl = TablaAlumno.getColumnModel().getColumn(0);
+        columnaNumeroControl.setPreferredWidth(60);
+        TableColumn columnabtnMasinfo;
+        columnabtnMasinfo = TablaAlumno.getColumnModel().getColumn(3);
+        columnabtnMasinfo.setPreferredWidth(15);
+        TablaAlumno.setRowHeight(25);
+        TableColumn columnabtnEditar;
+        columnabtnEditar = TablaAlumno.getColumnModel().getColumn(4);
+        columnabtnEditar.setPreferredWidth(15);
+        TableColumn columnabtnEliminar;
+        columnabtnEliminar = TablaAlumno.getColumnModel().getColumn(5);
+        columnabtnEliminar.setPreferredWidth(15);
+        TablaAlumno.addMouseListener(this);
+        contenidoTabla();
+
+    }
+
+    public void contenidoTabla() {
+        TablaAlumno.setDefaultRenderer(Object.class, new ImgTable());
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
+        try {
+            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY NumeroControl;");
+            if (model.getRowCount() != 0) {
+                int a = 0;
+                while (a < model.getRowCount()) {
+                    model.removeRow(a);
+                }
+            }
+            rs = sql.executeQuery();
+            for (int i = 0; rs.next(); i++) {
+                String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
+                //TablaAlumno.setValueAt((rs.getInt("NumeroControl")), i, 0);
+                //String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                //TablaAlumno.setValueAt(nombreCompleto, i, 1);
+                //if (rs.getString("Status").equals("Activo")) {
+                //    TablaAlumno.setValueAt("Activo", i, 2);
+                //} else {
+                //    TablaAlumno.setValueAt("Baja", i, 2);
+                //}
+                //System.out.println(labe);
+                //TablaAlumno.setValueAt(informacion, i, 3);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
     }
 
     /**
@@ -31,27 +103,57 @@ public class Alumno extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btnActualizar = new javax.swing.JButton();
+        TablaAlumno = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        LabelNumeroControl = new javax.swing.JLabel();
+        NumeroControl = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaAlumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Num.de Control", "Nombre Completo", "Estado", "", "", ""
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        btnActualizar.setText("Actualizar datos");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TablaAlumno);
+        if (TablaAlumno.getColumnModel().getColumnCount() > 0) {
+            TablaAlumno.getColumnModel().getColumn(0).setResizable(false);
+            TablaAlumno.getColumnModel().getColumn(1).setResizable(false);
+            TablaAlumno.getColumnModel().getColumn(2).setResizable(false);
+            TablaAlumno.getColumnModel().getColumn(3).setResizable(false);
+            TablaAlumno.getColumnModel().getColumn(4).setResizable(false);
+            TablaAlumno.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         btnSalir.setText("Cancelar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -60,10 +162,31 @@ public class Alumno extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Eliminar Alumno");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Busqueda por Alumno");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Alumnos");
+
+        LabelNumeroControl.setText("Numero de Control: ");
+
+        NumeroControl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                NumeroControlActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnMostrar.setText("Mostrar todos");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
             }
         });
 
@@ -73,49 +196,242 @@ public class Alumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnActualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnMostrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSalir)
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(LabelNumeroControl)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addComponent(NumeroControl, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelNumeroControl)
+                    .addComponent(NumeroControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addGap(29, 29, 29)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(jButton1)
-                    .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalir)
+                    .addComponent(btnMostrar))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        Consultas con = new Consultas();
-        con.setTitle("Consultar pagos y alumnos");
-        con.setLocationRelativeTo(null);
-        con.setVisible(true);
+       // Consultas con = new Consultas();
+        //con.setTitle("Consultar pagos y alumnos");
+        //con.setLocationRelativeTo(null);
+        //con.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showInternalConfirmDialog(null, "Seguro que desea eliminar este alumno\nEsta accion no se puede revertir", "CUIDADO", JOptionPane.YES_NO_OPTION);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void NumeroControlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroControlActionPerformed
 
+    }//GEN-LAST:event_NumeroControlActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        String nc = NumeroControl.getText();
+        DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
+        try {
+            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno WHERE NumeroControl=" + nc + ";");
+            if (model.getRowCount() != 0) {
+                int a = 0;
+                while (a < model.getRowCount()) {
+                    model.removeRow(a);
+                }
+            }
+            rs = sql.executeQuery();
+            if (rs.next()) {
+                
+                String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
+               
+                //model.addRow(new Object[]{});
+                //TablaAlumno.setValueAt((rs.getInt("NumeroControl")), 0, 0);
+                //String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                //TablaAlumno.setValueAt(nombreCompleto, 0, 1);
+                //if (rs.getString("Status").equals("Activo")) {
+                //    TablaAlumno.setValueAt("Activo", 0, 2);
+                //} else {
+                //    TablaAlumno.setValueAt("En baja", 0, 2);
+                //}
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro el Numero de Control que se intenta buscar.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        contenidoTabla();
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        Actualiza_Tabla();
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void eliminar(String NControl) {
+        int desicion = JOptionPane.showConfirmDialog(null, "La informacion del alumno se borrara de la base de datos.\n"
+                + "¿Seguro que se desea eliminar al Alumno?", "Eliminar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (desicion == 0) {
+            PreparedStatement sql = null;
+            ResultSet rs = null;
+            conn = ConexionSQL.conectar();
+            //cambiar por Numero de control de la fila
+            String nc = NumeroControl.getText();
+            DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
+            try {
+                sql = conn.prepareStatement("DELETE FROM alumno WHERE NumeroControl = " + NControl + ";");
+                
+                int s = sql.executeUpdate();
+                if (s != 0) {
+                    JOptionPane.showMessageDialog(null, "El alumno fue eliminado de la base de datos.", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
+                    Actualiza_Tabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        }
+
+    }
+    private void Actualiza_Tabla(){
+        TablaAlumno.setDefaultRenderer(Object.class, new ImgTable());
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
+        try {
+            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY NumeroControl;");
+            if (model.getRowCount() != 0) {
+                int a = 0;
+                while (a < model.getRowCount()) {
+                    model.removeRow(a);
+                }
+            }
+            rs = sql.executeQuery();
+            for (int i = 0; rs.next(); i++) {
+                String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    private void editar(int NoControl) {
+        EditarAlumno a = new EditarAlumno();
+        a.imprimir(NoControl);
+        a.setVisible(true);
+    }
+
+    private void masinfo(String nc) {
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        //cambiar por numero de control de la columna
+        try {
+            sql = conn.prepareStatement("SELECT * FROM alumno WHERE NumeroControl=" + nc + ";");
+
+            rs = sql.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Numero de control: " + rs.getInt("NumeroControl") + "\nNombre: " + rs.getString("NombrePila")
+                        + "\nPrimer Apellido: " + rs.getString("PrimerApellido") + "\nSegundo Apellido: " + rs.getString("SegundoApellido") + "\nCURP: " + rs.getString("CP")
+                        + "\nRFC: " + rs.getString("RFC") + "\nEmail: " + rs.getString("Email") + "\nTelefono: " + rs.getString("Telefono") + "\nTelefono de Emergencia: " + rs.getString("TelefonoEmergencia")
+                        + "\nFecha de Inscripcion: " + rs.getString("FechaInscripcion") + "\nBeca(%): " + rs.getString("Beca") + "\nEs foraneo: " + rs.getString("Foraneo")
+                        + "\n\nDOMICILIO" + "\n#" + rs.getString("NumeroExterno") + " Calle " + rs.getString("Calle") + " Col. " + rs.getString("Colonia"), "Informacion del Alumno", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro el Numero de Control que se intenta buscar.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    private String status(String s) {
+        if (s.equals("Activo")) {
+            return "Activo";
+        } else {
+            return "Baja";
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizar;
+    private javax.swing.JLabel LabelNumeroControl;
+    private javax.swing.JTextField NumeroControl;
+    private javax.swing.JTable TablaAlumno;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int fila = TablaAlumno.rowAtPoint(e.getPoint());
+        int columna = TablaAlumno.columnAtPoint(e.getPoint());
+        if (columna == 3 ) {
+            String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
+            masinfo(Nocontrol);
+        } else if (columna == 4) {
+            int Nocontrol = Integer.parseInt(String.valueOf(TablaAlumno.getValueAt(fila, 0)));
+            editar(Nocontrol);
+        } else if (columna == 5){
+            String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
+            eliminar(Nocontrol); 
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+   }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }
