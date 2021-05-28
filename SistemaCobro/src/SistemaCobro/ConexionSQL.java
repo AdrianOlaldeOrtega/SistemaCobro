@@ -21,7 +21,7 @@ public class ConexionSQL {
         try {
             String url = "jdbc:mysql://localhost:3306/englishschoolprestige";
             String user = "root";
-            String password = "Nikiforov26";
+            String password = "";
             connect = DriverManager.getConnection(url, user, password);
             if (connect != null) {
                 System.out.println("Conexion exitosa");
@@ -30,7 +30,7 @@ public class ConexionSQL {
             }
 
         } catch (SQLException ex) {
-            System.out.println("no");
+            System.out.println(ex);
 
         }
         return connect;
