@@ -457,6 +457,8 @@ public class EditarAlumno extends javax.swing.JFrame {
                 estado.setText(rs.getString("Estado"));
                 tel.setText(String.valueOf(rs.getInt("Telefono")));
                 String valores[] = new String[2];
+                valores[0]="";
+                valores[1]="";
                 int r = 0;
                 String email3 = rs.getString("Email");
                 for (int n = 0; n < email3.length(); n++) {
@@ -508,7 +510,7 @@ public class EditarAlumno extends javax.swing.JFrame {
                 String sentencia = "UPDATE alumno SET NombrePila = ?,PrimerApellido = ?,SegundoApellido = ?,Curp = ?,Email = ?"
                         + ",Telefono = ?,TelefonoEmergencia = ?,FechaInscripcion = ?,RFC = ?,Beca = ?, Foraneo= ?, "
                         + "NumeroExterno= ? , NumeroInterno = ?,Calle = ?,Colonia = ?,Municipio = ?,Estado = ?,CP = ?,Status=? "
-                        + "WHERE NumeroControl = " + 2;
+                        + "WHERE NumeroControl = " + LabelNumeroControl.getText();
                 st = conn.prepareStatement(sentencia);
                 st.setString(1, nombre.getText());
                 st.setString(2, ap1.getText());

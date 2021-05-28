@@ -19,6 +19,7 @@ public class RegistrarAlumno extends javax.swing.JFrame {
     public RegistrarAlumno() {
         initComponents();
         CerrarVentana();
+        System.out.println("esta pantalla");
     }
 
     @SuppressWarnings("unchecked")
