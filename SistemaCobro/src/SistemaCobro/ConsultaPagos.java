@@ -77,7 +77,7 @@ public class ConsultaPagos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tipo_Busqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Especifico" }));
@@ -112,6 +112,11 @@ public class ConsultaPagos extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 106, 516, 233));
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(431, 357, 85, -1));
 
         Selector_Mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin especificar", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", " " }));
@@ -186,6 +191,10 @@ public class ConsultaPagos extends javax.swing.JFrame {
     private void Selector_AnioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_Selector_AnioItemStateChanged
         actualizar_tabla_especifica(String.valueOf(Selector_Mes.getSelectedItem()), String.valueOf(Selector_Anio.getSelectedItem()));
     }//GEN-LAST:event_Selector_AnioItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

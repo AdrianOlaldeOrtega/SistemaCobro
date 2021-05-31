@@ -406,8 +406,8 @@ public class RegistrarAlumno extends javax.swing.JFrame {
                 }else{
                   st.setString(5, (email.getText() + "@" + email2.getText()));  
                 }
-                st.setInt(6, Integer.parseInt(tel.getText()));
-                st.setInt(7, Integer.parseInt(teleme.getText()));
+                st.setString(6, tel.getText());
+                st.setString(7, teleme.getText());
                 Date f = Fecha_inscripcion.getDate();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String x = df.format(f);
