@@ -360,27 +360,30 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
         a.setVisible(true);
     }
 
-    private void masinfo(String nc) {
+    private String masinfo(String nc) {
         PreparedStatement sql = null;
         ResultSet rs = null;
         conn = ConexionSQL.conectar();
+        String info = "";
         //cambiar por numero de control de la columna
         try {
             sql = conn.prepareStatement("SELECT * FROM alumno WHERE NumeroControl=" + nc + ";");
 
             rs = sql.executeQuery();
             if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Numero de control: " + rs.getInt("NumeroControl") + "\nNombre: " + rs.getString("NombrePila")
-                        + "\nPrimer Apellido: " + rs.getString("PrimerApellido") + "\nSegundo Apellido: " + rs.getString("SegundoApellido") + "\nCURP: " + rs.getString("CP")
+                info = "Numero de control: " + rs.getInt("NumeroControl") + "\nNombre: " + rs.getString("NombrePila")
+                        + "\nPrimer Apellido: " + rs.getString("PrimerApellido") + "\nSegundo Apellido: " + rs.getString("SegundoApellido") + "\nCURP: " + rs.getString("CURP")
                         + "\nRFC: " + rs.getString("RFC") + "\nEmail: " + rs.getString("Email") + "\nTelefono: " + rs.getString("Telefono") + "\nTelefono de Emergencia: " + rs.getString("TelefonoEmergencia")
                         + "\nFecha de Inscripcion: " + rs.getString("FechaInscripcion") + "\nBeca(%): " + rs.getString("Beca") + "\nEs foraneo: " + rs.getString("Foraneo")
-                        + "\n\nDOMICILIO" + "\n#" + rs.getString("NumeroExterno") + " Calle " + rs.getString("Calle") + " Col. " + rs.getString("Colonia"), "Informacion del Alumno", JOptionPane.INFORMATION_MESSAGE);
+                        + "\n\nDOMICILIO" + "\n#" + rs.getString("NumeroExterno") + " Calle " + rs.getString("Calle") + " Col. " + rs.getString("Colonia");
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontro el Numero de Control que se intenta buscar.", "Error!", JOptionPane.ERROR_MESSAGE);
             }
+           
         } catch (SQLException e) {
             System.out.println(e);
         }
+         return info;
     }
 
     private String status(String s) {
@@ -409,7 +412,12 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
         int columna = TablaAlumno.columnAtPoint(e.getPoint());
         if (columna == 3 ) {
             String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
-            masinfo(Nocontrol);
+            Informacion_Alumno obj = new Informacion_Alumno(Nocontrol);
+            obj.setTitle("Información Alumno");
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+            
+            //masinfo(Nocontrol);
         } else if (columna == 4) {
             int Nocontrol = Integer.parseInt(String.valueOf(TablaAlumno.getValueAt(fila, 0)));
             editar(Nocontrol);
