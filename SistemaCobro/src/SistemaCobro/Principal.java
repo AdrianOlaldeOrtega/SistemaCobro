@@ -24,6 +24,7 @@ public class Principal extends javax.swing.JFrame {
         Panel_Menu_Finanzas.setVisible(false);
         Panel_menu.setVisible(false);
         Panel_Menu_Consultas.setVisible(false);
+        Panel_Menu_Admin.setVisible(false);
     
     
         
@@ -41,13 +42,16 @@ public class Principal extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         btnMin = new javax.swing.JButton();
         btnmenu = new javax.swing.JButton();
+        Panel_Menu_Finanzas = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         Panel_Menu_Consultas = new javax.swing.JPanel();
         Consutla_Pago = new javax.swing.JButton();
         Consulta_Alumno = new javax.swing.JButton();
         Consulta_Deudores = new javax.swing.JButton();
-        Panel_Menu_Finanzas = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Panel_Menu_Admin = new javax.swing.JPanel();
+        btn_cons_mov = new javax.swing.JButton();
+        btn_alta_usuarios = new javax.swing.JButton();
         Panel_menu = new javax.swing.JPanel();
         btn1 = new javax.swing.JButton();
         btn3 = new javax.swing.JButton();
@@ -104,57 +108,6 @@ public class Principal extends javax.swing.JFrame {
         });
         Panel_principal.add(btnmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 70, 70));
 
-        Panel_Menu_Consultas.setOpaque(false);
-        Panel_Menu_Consultas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Panel_Menu_ConsultasMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Panel_Menu_ConsultasMouseExited(evt);
-            }
-        });
-        Panel_Menu_Consultas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Consutla_Pago.setText("Pago");
-        Consutla_Pago.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Consutla_PagoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Consutla_PagoMouseExited(evt);
-            }
-        });
-        Panel_Menu_Consultas.add(Consutla_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 140, 40));
-
-        Consulta_Alumno.setText("Alumno");
-        Consulta_Alumno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Consulta_AlumnoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Consulta_AlumnoMouseExited(evt);
-            }
-        });
-        Consulta_Alumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Consulta_AlumnoActionPerformed(evt);
-            }
-        });
-        Panel_Menu_Consultas.add(Consulta_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, 40));
-
-        Consulta_Deudores.setText("Deudores");
-        Consulta_Deudores.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Consulta_DeudoresMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Consulta_DeudoresMouseExited(evt);
-            }
-        });
-        Panel_Menu_Consultas.add(Consulta_Deudores, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 140, 40));
-
-        Panel_principal.add(Panel_Menu_Consultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 170, 140));
-
         Panel_Menu_Finanzas.setBackground(new java.awt.Color(255, 255, 255));
         Panel_Menu_Finanzas.setOpaque(false);
         Panel_Menu_Finanzas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -205,7 +158,103 @@ public class Principal extends javax.swing.JFrame {
         });
         Panel_Menu_Finanzas.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 140, 40));
 
-        Panel_principal.add(Panel_Menu_Finanzas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 220, -1));
+        Panel_principal.add(Panel_Menu_Finanzas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, -1));
+
+        Panel_Menu_Consultas.setOpaque(false);
+        Panel_Menu_Consultas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Panel_Menu_ConsultasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Panel_Menu_ConsultasMouseExited(evt);
+            }
+        });
+        Panel_Menu_Consultas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Consutla_Pago.setText("Pago");
+        Consutla_Pago.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Consutla_PagoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Consutla_PagoMouseExited(evt);
+            }
+        });
+        Consutla_Pago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Consutla_PagoActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Consultas.add(Consutla_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 140, 40));
+
+        Consulta_Alumno.setText("Alumno");
+        Consulta_Alumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Consulta_AlumnoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Consulta_AlumnoMouseExited(evt);
+            }
+        });
+        Consulta_Alumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Consulta_AlumnoActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Consultas.add(Consulta_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 140, 40));
+
+        Consulta_Deudores.setText("Deudores");
+        Consulta_Deudores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Consulta_DeudoresMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Consulta_DeudoresMouseExited(evt);
+            }
+        });
+        Consulta_Deudores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Consulta_DeudoresActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Consultas.add(Consulta_Deudores, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 140, 40));
+
+        Panel_principal.add(Panel_Menu_Consultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+
+        Panel_Menu_Admin.setOpaque(false);
+        Panel_Menu_Admin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Panel_Menu_AdminMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Panel_Menu_AdminMouseExited(evt);
+            }
+        });
+        Panel_Menu_Admin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btn_cons_mov.setText("Consulta Movimientos");
+        btn_cons_mov.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cons_movMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cons_movMouseExited(evt);
+            }
+        });
+        Panel_Menu_Admin.add(btn_cons_mov, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 140, 40));
+
+        btn_alta_usuarios.setText("Alta de Usarios");
+        btn_alta_usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_alta_usuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_alta_usuariosMouseExited(evt);
+            }
+        });
+        Panel_Menu_Admin.add(btn_alta_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 140, 40));
+
+        Panel_principal.add(Panel_Menu_Admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 190, 110));
 
         Panel_menu.setBackground(new java.awt.Color(167, 167, 167));
         Panel_menu.setOpaque(false);
@@ -424,18 +473,17 @@ public class Principal extends javax.swing.JFrame {
     private void btn4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseEntered
          Panel_menu.setVisible(true);
         Panel_fondo_menu.setVisible(true);
+        Panel_Menu_Admin.setVisible(true);
     }//GEN-LAST:event_btn4MouseEntered
 
     private void btn4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseExited
          Panel_menu.setVisible(true);
         Panel_fondo_menu.setVisible(true);
+        Panel_Menu_Admin.setVisible(false);
     }//GEN-LAST:event_btn4MouseExited
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        Usuarios us = new Usuarios();
-        us.setTitle("Agregar/eliminar usuarios");
-        us.setLocationRelativeTo(null);
-        us.setVisible(true);
+        
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -542,6 +590,42 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_btnMinActionPerformed
 
+    private void Panel_Menu_AdminMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_AdminMouseEntered
+        Panel_Menu_Admin.setVisible(true);
+    }//GEN-LAST:event_Panel_Menu_AdminMouseEntered
+
+    private void btn_alta_usuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alta_usuariosMouseEntered
+        Panel_Menu_Admin.setVisible(true);
+    }//GEN-LAST:event_btn_alta_usuariosMouseEntered
+
+    private void btn_cons_movMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cons_movMouseEntered
+        Panel_Menu_Admin.setVisible(true);
+    }//GEN-LAST:event_btn_cons_movMouseEntered
+
+    private void Panel_Menu_AdminMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_AdminMouseExited
+        Panel_Menu_Admin.setVisible(false);
+    }//GEN-LAST:event_Panel_Menu_AdminMouseExited
+
+    private void btn_alta_usuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alta_usuariosMouseExited
+        Panel_Menu_Admin.setVisible(false);
+    }//GEN-LAST:event_btn_alta_usuariosMouseExited
+
+    private void btn_cons_movMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cons_movMouseExited
+        Panel_Menu_Admin.setVisible(false);
+    }//GEN-LAST:event_btn_cons_movMouseExited
+
+    private void Consulta_DeudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consulta_DeudoresActionPerformed
+              
+        
+    }//GEN-LAST:event_Consulta_DeudoresActionPerformed
+
+    private void Consutla_PagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consutla_PagoActionPerformed
+        ConsultaPagos obj = new ConsultaPagos();
+        obj.setTitle("Consulta de pagos");
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+    }//GEN-LAST:event_Consutla_PagoActionPerformed
+
     
 
     /**
@@ -586,6 +670,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton Consulta_Alumno;
     private javax.swing.JButton Consulta_Deudores;
     private javax.swing.JButton Consutla_Pago;
+    private javax.swing.JPanel Panel_Menu_Admin;
     private javax.swing.JPanel Panel_Menu_Consultas;
     private javax.swing.JPanel Panel_Menu_Finanzas;
     private javax.swing.JPanel Panel_fondo_menu;
@@ -597,6 +682,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn4;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnMin;
+    private javax.swing.JButton btn_alta_usuarios;
+    private javax.swing.JButton btn_cons_mov;
     private javax.swing.JButton btnmenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
