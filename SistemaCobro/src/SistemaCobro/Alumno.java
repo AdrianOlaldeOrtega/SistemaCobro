@@ -356,7 +356,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
 
     private void editar(int NoControl) {
         EditarAlumno a = new EditarAlumno();
-        a.imprimir(NoControl);
+        a.imprimir(NoControl, "");
         a.setVisible(true);
     }
 

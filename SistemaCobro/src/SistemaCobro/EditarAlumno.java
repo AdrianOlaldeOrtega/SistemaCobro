@@ -433,12 +433,19 @@ public class EditarAlumno extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnCancelarActionPerformed
-    public void imprimir(int NumeroControl) {
+    public void imprimir(int NumeroControl, String curpo) {
+        String st1 = "SELECT * FROM alumno WHERE NumeroControl=" + NumeroControl + ";";
+        String st2 = "SELECT * FROM alumno WHERE CURP="+curpo+";";
+        String sqlSt ="";
+        if(curpo == "")
+            sqlSt=st1;
+        else
+            sqlSt=st2;
         PreparedStatement sql = null;
         ResultSet rs = null;
         conn = ConexionSQL.conectar();
         try {
-            sql = conn.prepareStatement("SELECT * FROM alumno WHERE NumeroControl=" + NumeroControl + ";");
+            sql = conn.prepareStatement(st1);
             rs = sql.executeQuery();
             if (rs.next()) {
                 LabelNumeroControl.setText(String.valueOf(rs.getInt("NumeroControl")));
@@ -455,7 +462,7 @@ public class EditarAlumno extends javax.swing.JFrame {
                 col.setText(rs.getString("Colonia"));
                 muni.setText(rs.getString("Municipio"));
                 estado.setText(rs.getString("Estado"));
-                tel.setText(String.valueOf(rs.getInt("Telefono")));
+                tel.setText(rs.getString("Telefono"));
                 String valores[] = new String[2];
                 valores[0]="";
                 valores[1]="";
@@ -469,9 +476,9 @@ public class EditarAlumno extends javax.swing.JFrame {
                         valores[r] += c;
                     }
                 }
-                email.setText(valores[0]);
-                email2.setText(valores[1]);
-                teleme.setText(String.valueOf(rs.getInt("TelefonoEmergencia")));
+                email.setText(email3.substring(0, email3.indexOf('@')));
+                email2.setText(email3.substring(email3.indexOf('@')+1, email3.length()));
+                teleme.setText(rs.getString("TelefonoEmergencia"));
                 String f = rs.getString("Foraneo");
                 if (f.equals("si")) {
                     foraneo.setSelected(true);
@@ -521,8 +528,8 @@ public class EditarAlumno extends javax.swing.JFrame {
                 } else {
                     st.setString(5, (email.getText() + "@" + email2.getText()));
                 }
-                st.setInt(6, Integer.parseInt(tel.getText()));
-                st.setInt(7, Integer.parseInt(teleme.getText()));
+                st.setString(6, tel.getText());
+                st.setString(7, teleme.getText());
                 Date f = Fecha_inscripcion.getDate();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String x = df.format(f);

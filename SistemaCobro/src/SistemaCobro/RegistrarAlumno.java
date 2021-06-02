@@ -21,6 +21,8 @@ public class RegistrarAlumno extends javax.swing.JFrame {
         CerrarVentana();
         System.out.println("esta pantalla");
     }
+    PreparedStatement st;
+    Connection conn;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -380,7 +382,7 @@ public class RegistrarAlumno extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int desicion = JOptionPane.showConfirmDialog(null, "Se perdera la informacion del Alumno\n"
-                 + "¿Seguro que quiere salir de la ventana?", "Cancelar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                + "¿Seguro que quiere salir de la ventana?", "Cancelar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (desicion == 0) {
             this.dispose();
         }
@@ -388,9 +390,23 @@ public class RegistrarAlumno extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean correcto = validar();
-        PreparedStatement st;
-        Connection conn;
-        if (correcto == true) {
+        int ins = buscarInscrito();
+        int cambiarDatos;
+        if (ins != 0 && correcto) {
+            cambiarDatos = JOptionPane.showConfirmDialog(null, "El alumno"+nombre.getText()+" "+ap1.getText()+" "+ap2.getText()+" ya se encuentra registrado,\n¿Desea cambiar sus datos?", "CUIDADO", JOptionPane.YES_NO_OPTION);
+            if (cambiarDatos == JOptionPane.YES_OPTION) {
+                EditarAlumno vent = new EditarAlumno();
+                vent.imprimir(ins, curp.getText());
+                vent.setVisible(true);
+                this.dispose();
+                return;
+            } else {
+                return;
+            }
+            
+        }
+        System.out.println("Aqui para");
+        if (correcto == true && ins == 0) {
             try {
                 conn = ConexionSQL.conectar();
                 String sentencia = "INSERT INTO ALUMNO (NombrePila,PrimerApellido,SegundoApellido,Curp,Email,Telefono,TelefonoEmergencia,FechaInscripcion,"
@@ -401,10 +417,10 @@ public class RegistrarAlumno extends javax.swing.JFrame {
                 st.setString(2, ap1.getText());
                 st.setString(3, ap2.getText());
                 st.setString(4, curp.getText());
-                if(email.getText().equals("")){
-                 st.setString(5, "");   
-                }else{
-                  st.setString(5, (email.getText() + "@" + email2.getText()));  
+                if (email.getText().equals("")) {
+                    st.setString(5, "");
+                } else {
+                    st.setString(5, (email.getText() + "@" + email2.getText()));
                 }
                 st.setString(6, tel.getText());
                 st.setString(7, teleme.getText());
@@ -593,26 +609,29 @@ public class RegistrarAlumno extends javax.swing.JFrame {
         }
         return correcto;
     }
-    public void CerrarVentana() {
-        try{
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                cerrar();
 
-            }
-        });
-        }catch(Exception e){
+    public void CerrarVentana() {
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    cerrar();
+
+                }
+            });
+        } catch (Exception e) {
             System.out.println(e);
         }
-    }  
-    public void cerrar(){
-        int desicion = JOptionPane.showConfirmDialog(null, "Se perdera toda la informacion del Alumno\n"
-                        + "¿Seguro que quiere salir de la ventana?", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (desicion == 0) {
-                    this.dispose();
-                }
     }
+
+    public void cerrar() {
+        int desicion = JOptionPane.showConfirmDialog(null, "Se perdera toda la informacion del Alumno\n"
+                + "¿Seguro que quiere salir de la ventana?", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (desicion == 0) {
+            this.dispose();
+        }
+    }
+
     public void limpiar() {
         nombre.setText("");
         ap1.setText("");
@@ -633,6 +652,28 @@ public class RegistrarAlumno extends javax.swing.JFrame {
         foraneo.setSelected(false);
         beca.setText("");
         Fecha_inscripcion.setToolTipText("");
+    }
+
+    private int buscarInscrito() {
+        int inscrito = 0;
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        String curpo = curp.getText();
+        try {
+            sql = conn.prepareStatement("SELECT NumeroControl, NombrePila, PrimerApellido, SegundoApellido FROM alumno WHERE CURP=" + "\'" + curp.getText() + "\'" + ";");
+            rs = sql.executeQuery();
+            if (rs.next()) {
+                inscrito = rs.getInt("NumeroControl");
+            } else {
+                inscrito = 0;
+            }
+            return inscrito;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return inscrito;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser Fecha_inscripcion;
