@@ -15,11 +15,17 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class RegistrarAlumno extends javax.swing.JFrame {
-
-    public RegistrarAlumno() {
+    String Acceso = "";
+    RegistrarAlumno(String Acceso) {
         initComponents();
         CerrarVentana();
         System.out.println("esta pantalla");
+        this.Acceso = Acceso;
+        if(Acceso.equalsIgnoreCase("Administrador")){
+            beca.setEnabled(true);
+        }else{
+            beca.setEnabled(false);
+        }
     }
     PreparedStatement st;
     Connection conn;
@@ -395,7 +401,7 @@ public class RegistrarAlumno extends javax.swing.JFrame {
         if (ins != 0 && correcto) {
             cambiarDatos = JOptionPane.showConfirmDialog(null, "El alumno"+nombre.getText()+" "+ap1.getText()+" "+ap2.getText()+" ya se encuentra registrado,\n¿Desea cambiar sus datos?", "CUIDADO", JOptionPane.YES_NO_OPTION);
             if (cambiarDatos == JOptionPane.YES_OPTION) {
-                EditarAlumno vent = new EditarAlumno();
+                EditarAlumno vent = new EditarAlumno(Acceso);
                 vent.imprimir(ins, curp.getText());
                 vent.setVisible(true);
                 this.dispose();

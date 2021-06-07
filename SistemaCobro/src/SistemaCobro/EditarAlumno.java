@@ -23,9 +23,14 @@ public class EditarAlumno extends javax.swing.JFrame {
     Statement stt;
     Connection conn;
 
-    public EditarAlumno() {
+    EditarAlumno(String Acceso) {
         initComponents();
         CerrarVentana();
+        if(Acceso.equals("Administrador")){
+            beca.setEnabled(true);
+        }else{
+            beca.setEnabled(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
