@@ -584,7 +584,9 @@ public class EditarAlumno extends javax.swing.JFrame {
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
         int desicion = JOptionPane.showConfirmDialog(null, "¿Seguro que se quiere de dar de baja al Alumno?", "Baja", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (desicion == 0) {
-            PreparedStatement st;
+            boolean si = checarPagos(Integer.parseInt(LabelNumeroControl.getText()));
+            if (si == true){
+             PreparedStatement st;
             Connection conn;
             try {
                 conn = ConexionSQL.conectar();
@@ -603,7 +605,11 @@ public class EditarAlumno extends javax.swing.JFrame {
                 System.out.println(e);
             }
             btnAlta.setEnabled(true);
-            btnBaja.setEnabled(false);
+            btnBaja.setEnabled(false);   
+            }else{
+                
+            }
+            
         }
     }//GEN-LAST:event_btnBajaActionPerformed
 
@@ -788,7 +794,57 @@ public class EditarAlumno extends javax.swing.JFrame {
                     this.dispose();
                 }
     }
-
+    public boolean checarPagos(int numerocontrol){
+        boolean sindeudas = true;
+        int libro = 0, inscripcion = 0, mensualidad = 0, certificacion = 0, saldo = 0;
+        String mensaje = "";
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        conn = ConexionSQL.conectar();
+        try {
+            String sentencia = "SELECT * FROM deuda WHERE ALUMNO_NumeroControl = "+numerocontrol;
+            sql = conn.prepareStatement(sentencia);
+            rs = sql.executeQuery();
+            if(rs.next()){
+                libro = rs.getInt("Libro");
+                inscripcion = rs.getInt("Inscripcion");
+                mensualidad = rs.getInt("Mensualidad");
+                certificacion = rs.getInt("Certificacion");
+                saldo = rs.getInt("Saldo");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        if (libro != 0){
+            sindeudas = false;
+            mensaje += "\nLibro: $ " + libro+".00";
+        }
+        if (inscripcion != 0){
+            sindeudas = false;
+            mensaje += "\nInscripcion: $ " + inscripcion+".00";
+        }
+        if (mensualidad != 0){
+            sindeudas = false;
+            mensaje += "\nMensualidad: $ " + mensualidad+".00";
+        }
+        if (certificacion > 0){
+            sindeudas = false;
+            mensaje += "\nCertificacion: $ " + certificacion+".00";
+        }
+        if (saldo != 0){
+            sindeudas = false;
+            mensaje = "A favor";
+        }
+        if (!mensaje.equals("") && !mensaje.equals("A favor")){
+            JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con algunas deudas: \n"+
+                    mensaje+ "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        
+        }else{
+            JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con saldo a favor: \n"+
+                    "\nSaldo a favor: $ "+saldo+".00"+ "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        }
+        return sindeudas;
+    }
     public void limpiar() {
         nombre.setText("");
         ap1.setText("");
