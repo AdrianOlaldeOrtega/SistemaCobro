@@ -234,6 +234,8 @@ public class RegistrarDeuda extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String motivo = String.valueOf(Concepto_Pago.getSelectedItem());
+        boolean estado = estadoAlumno();
+        if (estado == true){
         if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
             try {
                 conn = ConexionSQL.conectar();
@@ -308,8 +310,34 @@ public class RegistrarDeuda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
         }
         this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+    public boolean estadoAlumno() {
+        boolean si = true;
+        try {
+            conn = ConexionSQL.conectar();
+            stt = conn.createStatement();
+            //hacemos una consulta para ver el estatus del alumno
+            String sentencia = "SELECT NombrePila,PrimerApellido,SegundoApellido,Status FROM Alumno where NumeroControl = " + Nombre_Alumno.getText();
+            rs = stt.executeQuery(sentencia);
+            st = conn.prepareStatement(sentencia);
+            //Verificamos si arroja un resultado
+            if (rs.next()) {
+                String estado = rs.getString("Status");
+                String alumno = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
+                if (estado.equalsIgnoreCase("Ausente")) {
+                JOptionPane.showMessageDialog(null, "El alumno "+alumno+" actualmente se encuentra dado de baja. Por lo\n"
+                        + "que no es posible realizar ningun movimiento con sus datos financieros.", "Error!", JOptionPane.ERROR_MESSAGE);
+                   si = false;
+                }
+                System.out.println(estado);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return si;
 
+    }
     private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_btnMinActionPerformed
