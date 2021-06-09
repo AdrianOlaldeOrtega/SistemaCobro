@@ -10,33 +10,42 @@ import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author LEVEN
  */
 public class RegistrarPago extends javax.swing.JFrame {
-    
-    
+
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
     ResultSet rs;
     Statement stt;
     Connection conn;
+    Date fecha = new Date();
 
     /**
      * Creates new form NewJFrame
      */
     public RegistrarPago() {
         initComponents();
+        Fecha_error.setVisible(false);
+        NoControl_error.setVisible(false);
+        Monto_error.setVisible(false);
+        Fecha_Pago.setDate(fecha);
+        habilita_boton();
     }
-    public Image getIconImage (){
+
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes2/logo.jpg"));
         return retValue;
     }
@@ -69,6 +78,9 @@ public class RegistrarPago extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        Fecha_error = new javax.swing.JLabel();
+        NoControl_error = new javax.swing.JLabel();
+        Monto_error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(getIconImage());
@@ -134,6 +146,11 @@ public class RegistrarPago extends javax.swing.JFrame {
                 Monto_PagoActionPerformed(evt);
             }
         });
+        Monto_Pago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Monto_PagoKeyReleased(evt);
+            }
+        });
         jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 280, 40));
 
         Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
@@ -185,10 +202,10 @@ public class RegistrarPago extends javax.swing.JFrame {
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, -1));
 
         jSeparator1.setForeground(new java.awt.Color(63, 189, 211));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 342, 17));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 342, 17));
 
         jSeparator2.setForeground(new java.awt.Color(63, 189, 211));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 342, 22));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 342, 10));
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_calendar_40px_1.png"))); // NOI18N
@@ -201,6 +218,21 @@ public class RegistrarPago extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_us_dollar_40px.png"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 49, 35));
+
+        Fecha_error.setForeground(new java.awt.Color(255, 0, 0));
+        Fecha_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Fecha_error.setText("jLabel9");
+        jPanel1.add(Fecha_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 280, -1));
+
+        NoControl_error.setForeground(new java.awt.Color(255, 0, 0));
+        NoControl_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NoControl_error.setText("jLabel9");
+        jPanel1.add(NoControl_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 340, -1));
+
+        Monto_error.setForeground(new java.awt.Color(255, 0, 0));
+        Monto_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Monto_error.setText("jLabel9");
+        jPanel1.add(Monto_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 340, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 600));
 
@@ -219,37 +251,45 @@ public class RegistrarPago extends javax.swing.JFrame {
 
         Date f = Fecha_Pago.getDate();
         if (f != null) {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String x = df.format(f);
-            if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
-                try {
-                    conn = ConexionSQL.conectar();
-                    String sentencia = "Insert into PAGO (FechaP,Monto,ALUMNO_NumeroControl,Concepto) values (?,?,?,?)";
-                    st = conn.prepareStatement(sentencia);
-                    st.setString(1, x);
-                    st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
-                    st.setInt(3, Integer.parseInt(Nombre_Alumno.getText()));
-                    st.setString(4, Concepto_Pago.getSelectedItem().toString());
+            if (validar_fecha()) {
+                Fecha_error.setVisible(false);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String x = df.format(f);
+                if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
+                    try {
+                        if (validar_no_control()) {
+                            conn = ConexionSQL.conectar();
+                            String sentencia = "Insert into PAGO (FechaP,Monto,ALUMNO_NumeroControl,Concepto) values (?,?,?,?)";
+                            st = conn.prepareStatement(sentencia);
+                            st.setString(1, x);
+                            st.setDouble(2, Double.valueOf(Monto_Pago.getText()));
+                            st.setInt(3, Integer.parseInt(Nombre_Alumno.getText()));
+                            st.setString(4, Concepto_Pago.getSelectedItem().toString());
 
-                    int res = st.executeUpdate();
-                    if (res > 0) {
-                        JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
+                            int res = st.executeUpdate();
+                            if (res > 0) {
+                                JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
+                            }
+                            st.close();
+                            ReducirDeuda();
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e);
                     }
-                    st.close();
-                    ReducirDeuda();
-                } catch (Exception e) {
-                    System.out.println(e);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
+                Fecha_error.setText("Fecha inválida");
+                Fecha_error.setVisible(true);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
+            Fecha_error.setText("Fecha inválida");
+            Fecha_error.setVisible(true);
         }
-        this.dispose();
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -269,6 +309,10 @@ public class RegistrarPago extends javax.swing.JFrame {
     private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_btnMinActionPerformed
+
+    private void Monto_PagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Monto_PagoKeyReleased
+        validar_monto();
+    }//GEN-LAST:event_Monto_PagoKeyReleased
 
     public void ReducirDeuda() {
         try {
@@ -365,7 +409,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                     }
                     //probado
                     if (deuda < 0) {
-                        query = "UPDATE DEUDA SET " + concepto_sent + " = 0, Saldo = " + (deuda * (-1))+ " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        query = "UPDATE DEUDA SET " + concepto_sent + " = 0, Saldo = " + (deuda * (-1)) + " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
                         stt.executeUpdate(query);
                     } else {
                         query = "UPDATE DEUDA SET " + concepto_sent + " = " + deuda + " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
@@ -395,7 +439,10 @@ public class RegistrarPago extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
     private com.toedter.calendar.JDateChooser Fecha_Pago;
+    private javax.swing.JLabel Fecha_error;
     private javax.swing.JTextField Monto_Pago;
+    private javax.swing.JLabel Monto_error;
+    private javax.swing.JLabel NoControl_error;
     private javax.swing.JTextField Nombre_Alumno;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExit;
@@ -413,4 +460,142 @@ public class RegistrarPago extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+public void habilita_boton() {
+        if (Nombre_Alumno.getText().equalsIgnoreCase("") || Monto_Pago.getText().equalsIgnoreCase("")) {
+            jButton1.setEnabled(false);
+        } else {
+            jButton1.setEnabled(true);
+        }
+    }
+
+    public void validar_monto() {
+        //extraemos el valor del campo
+        String montoPago = Monto_Pago.getText();
+        try {
+            //tratamos de convertirlo a double para validar que no se ingresen caracteres indebidos
+            //si falla la conversacion se atrapara el error
+            double monto = Double.valueOf(montoPago);
+            if (montoPago.length() < 10 && montoPago.contains(".")) {
+                habilita_boton();
+                jButton1.setEnabled(true);
+                Monto_error.setVisible(false);
+
+            } else {
+                if (montoPago.length() < 7 && !montoPago.contains(".")) {
+                    habilita_boton();
+                    jButton1.setEnabled(true);
+                    Monto_error.setVisible(false);
+
+                } else {
+                    habilita_boton();
+                    jButton1.setEnabled(false);
+                    Fecha_error.setText("Monto inválido");
+                    Monto_error.setVisible(true);
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            habilita_boton();
+            jButton1.setEnabled(false);
+            Monto_error.setText("Monto inválido");
+            Monto_error.setVisible(true);
+
+        }
+    }
+
+    public boolean validar_no_control() {
+        boolean estado = false;
+        String id = Nombre_Alumno.getText().trim();
+        try {
+            int idd = Integer.parseInt(id);
+            if (!id.equalsIgnoreCase("")) {
+                PreparedStatement sql = null;
+                ResultSet rss = null;
+                conn = ConexionSQL.conectar();
+
+                String sentencia = "select NumeroControl from alumno where NumeroControl = " + id;
+                try {
+                    sql = conn.prepareStatement(sentencia);
+                    rs = sql.executeQuery();
+                    if (rs.next()) {
+                        habilita_boton();
+                        NoControl_error.setVisible(false);
+                        sql.close();
+                        estado = true;
+
+                    } else {
+                        habilita_boton();
+                        NoControl_error.setText("id incorrecto");
+                        NoControl_error.setVisible(true);
+                        sql.close();
+                        estado = false;
+
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(RegistrarDeuda.class.getName()).log(Level.SEVERE, null, ex);
+                    estado = false;
+                }
+            }
+        } catch (Exception e) {
+            habilita_boton();
+            NoControl_error.setText("id incorrecto");
+            NoControl_error.setVisible(true);
+            estado = false;
+        }
+        return estado;
+
+    }
+
+    public boolean validar_fecha() {
+        boolean estado = false;
+        Date f = Fecha_Pago.getDate();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String x = df.format(f);
+        System.out.println(x);
+        int tempanio = Integer.parseInt(x.substring(0, 4));
+        int tempmes = Integer.parseInt(x.substring(5, 7));
+        int tempdia = Integer.parseInt(x.substring(8, 10));
+        System.out.println(tempmes + " : " + tempdia);
+        Date date = new Date();
+        SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
+        String currentYear = getYearFormat.format(date);
+        int anio = Integer.parseInt(currentYear);
+        SimpleDateFormat getMonthFormat = new SimpleDateFormat("MM");
+        String currentMonth = getMonthFormat.format(date);
+        int mes = Integer.parseInt(currentMonth);
+        SimpleDateFormat getDayFormat = new SimpleDateFormat("dd");
+        String currentDay = getDayFormat.format(date);
+        int dia = Integer.parseInt(currentDay);
+        if (tempanio == anio) {
+            if (tempmes == mes) {
+                if (tempdia == dia) {
+                    estado = true;
+                } else {
+                    if (tempdia > dia) {
+                        estado = false;
+                    } else {
+                        estado = true;
+                    }
+                }
+            } else {
+                if (tempmes < mes) {
+                    estado = true;
+                } else {
+                    estado = false;
+                }
+
+            }
+        } else {
+            if (tempanio < anio) {
+                estado = true;
+            } else {
+                estado = false;
+            }
+
+        }
+        return estado;
+    }
 }

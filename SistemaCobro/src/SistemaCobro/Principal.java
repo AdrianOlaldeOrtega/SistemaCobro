@@ -15,8 +15,7 @@ public class Principal extends javax.swing.JFrame {
 
     DecimalFormat df = new DecimalFormat("#.00000000");
     static int contador = 0;
-    
-    
+
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -25,11 +24,10 @@ public class Principal extends javax.swing.JFrame {
         Panel_menu.setVisible(false);
         Panel_Menu_Consultas.setVisible(false);
         Panel_Menu_Admin.setVisible(false);
-    
-    
-        
+
     }
-    public Image getIconImage (){
+
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes2/logo.jpg"));
         return retValue;
     }
@@ -383,21 +381,21 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn1MouseExited
         // TODO add your handling code here:
-       Panel_Menu_Finanzas.setVisible(false);
+        Panel_Menu_Finanzas.setVisible(false);
         Panel_menu.setVisible(false);
         Panel_fondo_menu.setVisible(false);
     }//GEN-LAST:event_btn1MouseExited
 
     private void btn2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2MouseEntered
         // TODO add your handling code here:
-      
+
         Panel_menu.setVisible(true);
         Panel_fondo_menu.setVisible(true);
     }//GEN-LAST:event_btn2MouseEntered
 
     private void btn2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2MouseExited
         // TODO add your handling code here:
-       
+
         Panel_menu.setVisible(false);
         Panel_fondo_menu.setVisible(false);
     }//GEN-LAST:event_btn2MouseExited
@@ -410,8 +408,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn3MouseEntered
 
     private void btn3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3MouseExited
-         Panel_Menu_Consultas.setVisible(false);
-      
+        Panel_Menu_Consultas.setVisible(false);
 
         Panel_menu.setVisible(false);
 
@@ -446,21 +443,21 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnmenuMouseExited
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        
+
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-         //RegistrarAlumno obj = new RegistrarAlumno();
+        //RegistrarAlumno obj = new RegistrarAlumno();
         //RegistrarDeuda obj = new RegistrarDeuda();
         RegistrarAlumno oj = new RegistrarAlumno();
         RegistrarAlumno obj = new RegistrarAlumno();
-         oj.setTitle("Registrar Alumno");
+        oj.setTitle("Registrar Alumno");
         oj.setLocationRelativeTo(null);
         oj.setVisible(true);
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-       //Consultas con= new Consultas();
+        //Consultas con= new Consultas();
         //con.setTitle("Consultar pagos y alumnos");
         //con.setLocationRelativeTo(null);
         //con.setVisible(true);
@@ -471,19 +468,19 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Panel_fondo_menuMouseExited
 
     private void btn4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseEntered
-         Panel_menu.setVisible(true);
+        Panel_menu.setVisible(true);
         Panel_fondo_menu.setVisible(true);
         Panel_Menu_Admin.setVisible(true);
     }//GEN-LAST:event_btn4MouseEntered
 
     private void btn4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseExited
-         Panel_menu.setVisible(true);
+        Panel_menu.setVisible(true);
         Panel_fondo_menu.setVisible(true);
         Panel_Menu_Admin.setVisible(false);
     }//GEN-LAST:event_btn4MouseExited
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        
+
     }//GEN-LAST:event_btn4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -510,8 +507,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-       Panel_Menu_Finanzas.setVisible(true);
-       Panel_menu.setVisible(true);
+        Panel_Menu_Finanzas.setVisible(true);
+        Panel_menu.setVisible(true);
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
@@ -547,17 +544,17 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consulta_DeudoresMouseEntered
 
     private void Consutla_PagoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Consutla_PagoMouseEntered
-       Panel_Menu_Consultas.setVisible(true);
+        Panel_Menu_Consultas.setVisible(true);
         Panel_menu.setVisible(true);
     }//GEN-LAST:event_Consutla_PagoMouseEntered
 
     private void Panel_Menu_ConsultasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_ConsultasMouseExited
-       Panel_Menu_Consultas.setVisible(false);
+        Panel_Menu_Consultas.setVisible(false);
         Panel_menu.setVisible(false);
     }//GEN-LAST:event_Panel_Menu_ConsultasMouseExited
 
     private void Consulta_AlumnoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Consulta_AlumnoMouseExited
-         Panel_Menu_Consultas.setVisible(false);
+        Panel_Menu_Consultas.setVisible(false);
         Panel_menu.setVisible(false);
     }//GEN-LAST:event_Consulta_AlumnoMouseExited
 
@@ -579,7 +576,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consulta_AlumnoActionPerformed
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
-        
+
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuActionPerformed
@@ -615,8 +612,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cons_movMouseExited
 
     private void Consulta_DeudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consulta_DeudoresActionPerformed
-              
-        
+        Consulta_Deudores obj = new Consulta_Deudores();
+        obj.setTitle("Consulta de alumnos con deuda");
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+
     }//GEN-LAST:event_Consulta_DeudoresActionPerformed
 
     private void Consutla_PagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consutla_PagoActionPerformed
@@ -625,8 +625,6 @@ public class Principal extends javax.swing.JFrame {
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
     }//GEN-LAST:event_Consutla_PagoActionPerformed
-
-    
 
     /**
      * @param args the command line arguments
@@ -658,10 +656,10 @@ public class Principal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               Principal ventana = new Principal();
-               ventana.setTitle("SISTEMA DE REGISTRO DE PAGO");
-               ventana.setLocationRelativeTo(null);
-               ventana.setVisible(true);
+                Principal ventana = new Principal();
+                ventana.setTitle("SISTEMA DE REGISTRO DE PAGO");
+                ventana.setLocationRelativeTo(null);
+                ventana.setVisible(true);
             }
         });
     }

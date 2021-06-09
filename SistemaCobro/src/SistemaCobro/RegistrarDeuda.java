@@ -8,7 +8,11 @@ package SistemaCobro;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -27,6 +31,10 @@ public class RegistrarDeuda extends javax.swing.JFrame {
      */
     public RegistrarDeuda() {
         initComponents();
+        Monto_error.setVisible(false);
+        NoControl_error.setVisible(false);
+        habilita_boton();
+
     }
 
     public Image getIconImage() {
@@ -59,6 +67,8 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        Monto_error = new javax.swing.JLabel();
+        NoControl_error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(getIconImage());
@@ -71,6 +81,22 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         Nombre_Alumno.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         Nombre_Alumno.setForeground(new java.awt.Color(63, 189, 211));
         Nombre_Alumno.setBorder(null);
+        Nombre_Alumno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                Nombre_AlumnoFocusLost(evt);
+            }
+        });
+        Nombre_Alumno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Nombre_AlumnoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Nombre_AlumnoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Nombre_AlumnoKeyTyped(evt);
+            }
+        });
         jPanel1.add(Nombre_Alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 290, 40));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
@@ -104,6 +130,11 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         Monto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         Monto_Pago.setForeground(new java.awt.Color(63, 189, 211));
         Monto_Pago.setBorder(null);
+        Monto_Pago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Monto_PagoKeyReleased(evt);
+            }
+        });
         jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 290, 40));
 
         Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
@@ -161,20 +192,33 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 40, 40));
 
         jSeparator1.setForeground(new java.awt.Color(63, 189, 211));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 340, 17));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 340, 17));
 
         jSeparator2.setForeground(new java.awt.Color(63, 189, 211));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 340, 17));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 340, 17));
+
+        Monto_error.setForeground(new java.awt.Color(255, 0, 0));
+        Monto_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Monto_error.setText("jLabel7");
+        jPanel1.add(Monto_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 340, -1));
+
+        NoControl_error.setForeground(new java.awt.Color(255, 0, 0));
+        NoControl_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NoControl_error.setText("jLabel7");
+        jPanel1.add(NoControl_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 340, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -302,9 +346,31 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void Nombre_AlumnoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Nombre_AlumnoFocusLost
+
+    }//GEN-LAST:event_Nombre_AlumnoFocusLost
+
+    private void Nombre_AlumnoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Nombre_AlumnoKeyPressed
+        //validar_no_control();
+    }//GEN-LAST:event_Nombre_AlumnoKeyPressed
+
+    private void Nombre_AlumnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Nombre_AlumnoKeyTyped
+        //validar_no_control();
+    }//GEN-LAST:event_Nombre_AlumnoKeyTyped
+
+    private void Nombre_AlumnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Nombre_AlumnoKeyReleased
+        validar_no_control();
+    }//GEN-LAST:event_Nombre_AlumnoKeyReleased
+
+    private void Monto_PagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Monto_PagoKeyReleased
+        validar_monto();
+    }//GEN-LAST:event_Monto_PagoKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
     private javax.swing.JTextField Monto_Pago;
+    private javax.swing.JLabel Monto_error;
+    private javax.swing.JLabel NoControl_error;
     private javax.swing.JTextField Nombre_Alumno;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExit;
@@ -320,4 +386,91 @@ public class RegistrarDeuda extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+
+    public void validar_no_control() {
+        String id = Nombre_Alumno.getText().trim();
+        try {
+            int idd = Integer.parseInt(id);
+            if (!id.equalsIgnoreCase("")) {
+                PreparedStatement sql = null;
+                ResultSet rss = null;
+                conn = ConexionSQL.conectar();
+
+                String sentencia = "select NumeroControl from alumno where NumeroControl = " + id;
+                try {
+                    sql = conn.prepareStatement(sentencia);
+                    rs = sql.executeQuery();
+                    if (rs.next()) {
+                        habilita_boton();
+                        NoControl_error.setVisible(false);
+                        jButton1.setEnabled(true);
+                        
+                    } else {
+                        habilita_boton();
+                        jButton1.setEnabled(false);
+                        NoControl_error.setText("id incorrecto");
+                        NoControl_error.setVisible(true);
+                        
+                    }
+                    sql.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RegistrarDeuda.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (Exception e) {
+            habilita_boton();
+            jButton1.setEnabled(false);
+            NoControl_error.setText("id incorrecto");
+            NoControl_error.setVisible(true);
+            
+        }
+
+    }
+
+    public void validar_monto() {
+        //extraemos el valor del campo
+        String montoPago = Monto_Pago.getText();
+        try {
+            //tratamos de convertirlo a double para validar que no se ingresen caracteres indebidos
+            //si falla la conversacion se atrapara el error
+            double monto = Double.valueOf(montoPago);
+            if (montoPago.length() < 10 && montoPago.contains(".")) {
+                habilita_boton();
+                jButton1.setEnabled(true);
+                Monto_error.setVisible(false);
+                
+
+            } else {
+                if (montoPago.length() < 7 && !montoPago.contains(".")) {
+                    habilita_boton();
+                    jButton1.setEnabled(true);
+                    Monto_error.setVisible(false);
+                    
+                } else {
+                    habilita_boton();
+                    jButton1.setEnabled(false);
+                    Monto_error.setText("Monto inválido");
+                    Monto_error.setVisible(true);
+                    
+                }
+
+            }
+
+        } catch (Exception e) {
+            habilita_boton();
+            jButton1.setEnabled(false);
+            Monto_error.setText("Monto inválido");
+            Monto_error.setVisible(true);
+            
+        }
+    }
+    
+    public void habilita_boton(){
+        if (Nombre_Alumno.getText().equalsIgnoreCase("") || Monto_Pago.getText().equalsIgnoreCase("")){
+            jButton1.setEnabled(false);
+        }else{
+            jButton1.setEnabled(true);
+        }
+    }
+
 }
