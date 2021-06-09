@@ -544,6 +544,7 @@ public void habilita_boton() {
             NoControl_error.setText("id incorrecto");
             NoControl_error.setVisible(true);
             estado = false;
+            jButton1.setEnabled(false);
         }
         return estado;
 

@@ -34,6 +34,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         Monto_error.setVisible(false);
         NoControl_error.setVisible(false);
         habilita_boton();
+        jButton1.setEnabled(false);
 
     }
 
@@ -400,10 +401,10 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 try {
                     sql = conn.prepareStatement(sentencia);
                     rs = sql.executeQuery();
-                    if (rs.next()) {
-                        habilita_boton();
+                    if (rs.next()) {                        
                         NoControl_error.setVisible(false);
                         jButton1.setEnabled(true);
+                        habilita_boton();
                         
                     } else {
                         habilita_boton();
@@ -434,18 +435,17 @@ public class RegistrarDeuda extends javax.swing.JFrame {
             //tratamos de convertirlo a double para validar que no se ingresen caracteres indebidos
             //si falla la conversacion se atrapara el error
             double monto = Double.valueOf(montoPago);
-            if (montoPago.length() < 10 && montoPago.contains(".")) {
-                habilita_boton();
+            System.out.println(monto);
+            if (montoPago.length() < 10 && montoPago.contains(".")) {           
                 jButton1.setEnabled(true);
                 Monto_error.setVisible(false);
-                
+                habilita_boton();                
 
             } else {
-                if (montoPago.length() < 7 && !montoPago.contains(".")) {
-                    habilita_boton();
+                if (montoPago.length() < 7 && !montoPago.contains(".")) {                    
                     jButton1.setEnabled(true);
                     Monto_error.setVisible(false);
-                    
+                    habilita_boton();
                 } else {
                     habilita_boton();
                     jButton1.setEnabled(false);
