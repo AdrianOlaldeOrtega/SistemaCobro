@@ -30,12 +30,15 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
     ResultSet rs;
     Statement stt;
     Connection conn;
+    String Acceso = "";
 
     /**
      * Creates new form Usuarios
      */
-    public Usuarios() {
+    Usuarios(String Acceso) {
         initComponents();
+        this.Acceso = Acceso;
+        System.out.println(Acceso);
         TableColumn columnatipo;
         JViewport scroll = (JViewport) Tabla_Usuarios.getParent();
         int ancho = scroll.getWidth();
@@ -138,7 +141,7 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void Alta_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Alta_UsuarioActionPerformed
-        Alta_Usuarios obj = new Alta_Usuarios();
+        Alta_Usuarios obj = new Alta_Usuarios(Acceso);
         obj.setTitle("Nuevo Usuario");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -170,10 +173,13 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
             }
             rs = sql.executeQuery();
             for (int i = 0; rs.next(); i++) {
-                if (rs.getString("estado").equalsIgnoreCase("Activo")) {
-                    model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/activo.png")))});
-                } else {
-                    model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/desactivado.png")))});
+                System.out.println(Acceso +" desde tabla usuarios"+ rs.getString("Nombre"));
+                if (!Acceso.equals(rs.getString("Nombre"))) {
+                    if (rs.getString("estado").equalsIgnoreCase("Activo")) {
+                        model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/activo.png")))});
+                    } else {
+                        model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/desactivado.png")))});
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -198,7 +204,7 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
                         sentencia = "UPDATE usuario set estado = 'Desactivado' where Nombre = '" + Usuario + "'";
                         sql = conn.prepareStatement(sentencia);
                         sql.executeUpdate();
-                    }else{
+                    } else {
                         sentencia = "UPDATE usuario set estado = 'Activo' where Nombre = '" + Usuario + "'";
                         sql = conn.prepareStatement(sentencia);
                         sql.executeUpdate();

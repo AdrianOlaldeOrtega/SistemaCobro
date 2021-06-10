@@ -232,11 +232,11 @@ public class Consultas extends javax.swing.JFrame {
             this.setVisible(false);
         }
         else if(rbtnBuscar.isSelected()){
-            Alumno al = new Alumno();
-            al.setTitle("informacion de "+ txtNoControl.getText());
-            al.setLocationRelativeTo(null);
-            al.setVisible(true);
-            this.setVisible(false);
+          //  Alumno al = new Alumno();
+            //al.setTitle("informacion de "+ txtNoControl.getText());
+            //al.setLocationRelativeTo(null);
+            //al.setVisible(true);
+            //this.setVisible(false);
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 

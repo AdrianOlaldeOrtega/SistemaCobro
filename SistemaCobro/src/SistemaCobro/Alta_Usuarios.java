@@ -24,12 +24,14 @@ public class Alta_Usuarios extends javax.swing.JFrame {
     ResultSet rs;
     Statement stt;
     Connection conn;
+    String Acceso = "";
 
     /**
      * Creates new form Alta_Usuarios
      */
-    public Alta_Usuarios() {
+    Alta_Usuarios(String Acceso) {
         initComponents();
+        this.Acceso = Acceso;
         verifica_campos();
         error_usuario.setVisible(false);
         error_psw.setVisible(false);
@@ -235,7 +237,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
-        Usuarios obj = new Usuarios();
+        Usuarios obj = new Usuarios(Acceso);
         obj.setTitle("Alta de Usuarios");
         obj.setLocationRelativeTo(null);
         this.dispose();
@@ -263,7 +265,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
                         st.setString(4, "Activo");
                         int res = st.executeUpdate();
                         if (res > 0) {
-                            Usuarios obj = new Usuarios();
+                            Usuarios obj = new Usuarios(Acceso);
                             obj.setTitle("Alta de Usuarios");
                             obj.setLocationRelativeTo(null);
                             this.dispose();

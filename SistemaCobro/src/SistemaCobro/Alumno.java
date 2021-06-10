@@ -318,8 +318,9 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
             try {
                 sql = conn.prepareStatement("DELETE FROM alumno WHERE NumeroControl = " + NControl + ";");
-                
+                System.out.println("aqui");
                 int s = sql.executeUpdate();
+                
                 if (s != 0) {
                     JOptionPane.showMessageDialog(null, "El alumno fue eliminado de la base de datos.", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
                     Actualiza_Tabla();
@@ -327,6 +328,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException e) {
+                
                 System.out.println(e);
             }
         }
@@ -339,7 +341,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
         conn = ConexionSQL.conectar();
         DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
         try {
-            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY NumeroControl;");
+            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY Status;");
             if (model.getRowCount() != 0) {
                 int a = 0;
                 while (a < model.getRowCount()) {
@@ -349,7 +351,8 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             rs = sql.executeQuery();
             for (int i = 0; rs.next(); i++) {
                 String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
-                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
+                //model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
+                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png")))});
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -425,7 +428,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             editar(Nocontrol);
         } else if (columna == 5){
             String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
-            eliminar(Nocontrol); 
+            //eliminar(Nocontrol); 
         }
     }
 

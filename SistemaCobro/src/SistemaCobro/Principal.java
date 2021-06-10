@@ -16,7 +16,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Principal extends javax.swing.JFrame {
-    String Acceso ="";
+
+    String Acceso = "";
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
     ResultSet rs;
@@ -24,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
     Connection conn;
     DecimalFormat df = new DecimalFormat("#.00000000");
     static int contador = 0;
+    String Usuario = "";
 
     public Principal() {
         initComponents();
@@ -56,9 +58,9 @@ public class Principal extends javax.swing.JFrame {
         usuario = new javax.swing.JTextField();
         error_psw = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        psw = new javax.swing.JTextField();
         error_usuario = new javax.swing.JLabel();
         btn_aceptar = new javax.swing.JButton();
+        psw = new javax.swing.JPasswordField();
         Panel_principal = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
         btnMin = new javax.swing.JButton();
@@ -117,7 +119,6 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel4.setText("Contraseña");
         panel_Login.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
-        panel_Login.add(psw, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 220, -1));
 
         error_usuario.setForeground(new java.awt.Color(255, 0, 0));
         error_usuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -131,6 +132,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         panel_Login.add(btn_aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 220, -1));
+
+        psw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pswActionPerformed(evt);
+            }
+        });
+        panel_Login.add(psw, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 220, -1));
 
         getContentPane().add(panel_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 240, 360));
 
@@ -579,8 +587,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
         Panel_Menu_Finanzas.setVisible(true);
-        Panel_menu.setVisible(true);      
-        
+        Panel_menu.setVisible(true);
+
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
@@ -641,7 +649,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consulta_DeudoresMouseExited
 
     private void Consutla_PagoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Consutla_PagoMouseExited
-       Panel_Menu_Consultas.setVisible(false);
+        Panel_Menu_Consultas.setVisible(false);
         Panel_menu.setVisible(false);
     }//GEN-LAST:event_Consutla_PagoMouseExited
 
@@ -670,7 +678,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Panel_Menu_AdminMouseEntered
 
     private void btn_alta_usuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alta_usuariosMouseEntered
-         Panel_Menu_Admin.setVisible(true);
+        Panel_Menu_Admin.setVisible(true);
         Panel_menu.setVisible(true);
     }//GEN-LAST:event_btn_alta_usuariosMouseEntered
 
@@ -682,16 +690,16 @@ public class Principal extends javax.swing.JFrame {
     private void Panel_Menu_AdminMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_Menu_AdminMouseExited
         Panel_Menu_Admin.setVisible(false);
         Panel_menu.setVisible(false);
-       
+
     }//GEN-LAST:event_Panel_Menu_AdminMouseExited
 
     private void btn_alta_usuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_alta_usuariosMouseExited
-       Panel_Menu_Admin.setVisible(false);
+        Panel_Menu_Admin.setVisible(false);
         Panel_menu.setVisible(false);
     }//GEN-LAST:event_btn_alta_usuariosMouseExited
 
     private void btn_cons_movMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cons_movMouseExited
-       Panel_Menu_Admin.setVisible(false);
+        Panel_Menu_Admin.setVisible(false);
         Panel_menu.setVisible(false);
     }//GEN-LAST:event_btn_cons_movMouseExited
 
@@ -711,7 +719,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consutla_PagoActionPerformed
 
     private void btn_alta_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_alta_usuariosActionPerformed
-        Usuarios obj = new Usuarios();
+        Usuarios obj = new Usuarios(Usuario);
         obj.setTitle("Alta de Usuarios");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -729,21 +737,26 @@ public class Principal extends javax.swing.JFrame {
             rs = st.executeQuery();
             if (rs.next()) {
                 if (rs.getString("estado").equals("Activo")) {
-                    if (rs.getString("pasword").equals(psw.getText())) {
-                        panel_Login.setVisible(false);
-                        error_usuario.setVisible(false);
-                        error_psw.setVisible(false);
-                        btnmenu.setVisible(true);
-                        btn_cerrarsesion.setVisible(true);
-                        Acceso = rs.getString("Nivel_Acceso");
-                        if(Acceso.equals("Administrador")){
-                            btn4.setVisible(true);
-                        }else{
-                            btn4.setVisible(false);
+                    if (rs.getString("Nombre").equals(usuario.getText())) {
+                        if (rs.getString("pasword").equals(psw.getText())) {
+                            Usuario = rs.getString("Nombre");
+                            panel_Login.setVisible(false);
+                            error_usuario.setVisible(false);
+                            error_psw.setVisible(false);
+                            btnmenu.setVisible(true);
+                            btn_cerrarsesion.setVisible(true);
+                            Acceso = rs.getString("Nivel_Acceso");
+                            if (Acceso.equals("Administrador")) {
+                                btn4.setVisible(true);
+                            } else {
+                                btn4.setVisible(false);
+                            }
+                        } else {
+                            error_usuario.setVisible(false);
+                            error_psw.setVisible(true);
                         }
-                    } else {
-                        error_usuario.setVisible(false);
-                        error_psw.setVisible(true);
+                    }else{
+                        error_usuario.setVisible(true);
                     }
                 }
 
@@ -763,8 +776,12 @@ public class Principal extends javax.swing.JFrame {
         panel_Login.setVisible(true);
         btnmenu.setVisible(false);
         btn_cerrarsesion.setVisible(false);
-        
+
     }//GEN-LAST:event_btn_cerrarsesionActionPerformed
+
+    private void pswActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pswActionPerformed
 
     /**
      * @param args the command line arguments
@@ -837,7 +854,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel panel_Login;
-    private javax.swing.JTextField psw;
+    private javax.swing.JPasswordField psw;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
