@@ -22,13 +22,15 @@ public class EditarAlumno extends javax.swing.JFrame {
     ResultSet rs;
     Statement stt;
     Connection conn;
+    int idusuario;
 
-    EditarAlumno(String Acceso) {
+    EditarAlumno(String Acceso, int idusuario) {
         initComponents();
         CerrarVentana();
-        if(Acceso.equals("Administrador")){
+        this.idusuario = idusuario;
+        if (Acceso.equals("Administrador")) {
             beca.setEnabled(true);
-        }else{
+        } else {
             beca.setEnabled(false);
         }
     }
@@ -440,12 +442,13 @@ public class EditarAlumno extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
     public void imprimir(int NumeroControl, String curpo) {
         String st1 = "SELECT * FROM alumno WHERE NumeroControl=" + NumeroControl + ";";
-        String st2 = "SELECT * FROM alumno WHERE CURP="+curpo+";";
-        String sqlSt ="";
-        if(curpo == "")
-            sqlSt=st1;
-        else
-            sqlSt=st2;
+        String st2 = "SELECT * FROM alumno WHERE CURP=" + curpo + ";";
+        String sqlSt = "";
+        if (curpo == "") {
+            sqlSt = st1;
+        } else {
+            sqlSt = st2;
+        }
         PreparedStatement sql = null;
         ResultSet rs = null;
         conn = ConexionSQL.conectar();
@@ -469,8 +472,8 @@ public class EditarAlumno extends javax.swing.JFrame {
                 estado.setText(rs.getString("Estado"));
                 tel.setText(rs.getString("Telefono"));
                 String valores[] = new String[2];
-                valores[0]="";
-                valores[1]="";
+                valores[0] = "";
+                valores[1] = "";
                 int r = 0;
                 String email3 = rs.getString("Email");
                 for (int n = 0; n < email3.length(); n++) {
@@ -482,7 +485,7 @@ public class EditarAlumno extends javax.swing.JFrame {
                     }
                 }
                 email.setText(email3.substring(0, email3.indexOf('@')));
-                email2.setText(email3.substring(email3.indexOf('@')+1, email3.length()));
+                email2.setText(email3.substring(email3.indexOf('@') + 1, email3.length()));
                 teleme.setText(rs.getString("TelefonoEmergencia"));
                 String f = rs.getString("Foraneo");
                 if (f.equals("si")) {
@@ -571,6 +574,8 @@ public class EditarAlumno extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
                 }
+                String desc = "Modificó datos de " + nombre.getText();
+                RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
                 st.close();
                 limpiar();
             } catch (SQLException e) {
@@ -590,31 +595,33 @@ public class EditarAlumno extends javax.swing.JFrame {
         int desicion = JOptionPane.showConfirmDialog(null, "¿Seguro que se quiere de dar de baja al Alumno?", "Baja", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (desicion == 0) {
             boolean si = checarPagos(Integer.parseInt(LabelNumeroControl.getText()));
-            if (si == true){
-             PreparedStatement st;
-            Connection conn;
-            try {
-                conn = ConexionSQL.conectar();
-                String sentencia = "UPDATE alumno SET Status = 'Ausente' WHERE NumeroControl = ?";
-                st = conn.prepareStatement(sentencia);
-                st.setString(1, LabelNumeroControl.getText());
-                int res = st.executeUpdate();
-                if (res > 0) {
-                    JOptionPane.showMessageDialog(null, "Se ha dado de baja con éxito", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+            if (si == true) {
+                PreparedStatement st;
+                Connection conn;
+                try {
+                    conn = ConexionSQL.conectar();
+                    String sentencia = "UPDATE alumno SET Status = 'Ausente' WHERE NumeroControl = ?";
+                    st = conn.prepareStatement(sentencia);
+                    st.setString(1, LabelNumeroControl.getText());
+                    int res = st.executeUpdate();
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "Se ha dado de baja con éxito", "Exito!", JOptionPane.INFORMATION_MESSAGE);
 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    String desc = "Dio de baja a " + nombre.getText();
+                    RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
+                    st.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
                 }
-                st.close();
-            } catch (SQLException e) {
-                System.out.println(e);
+                btnAlta.setEnabled(true);
+                btnBaja.setEnabled(false);
+            } else {
+
             }
-            btnAlta.setEnabled(true);
-            btnBaja.setEnabled(false);   
-            }else{
-                
-            }
-            
+
         }
     }//GEN-LAST:event_btnBajaActionPerformed
 
@@ -635,6 +642,8 @@ public class EditarAlumno extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
                 }
+                String desc = "Dio de alta a "+ nombre.getText();
+                RegistrarMovimiento r = new RegistrarMovimiento(idusuario,desc);
                 st.close();
             } catch (SQLException e) {
                 System.out.println(e);
@@ -780,26 +789,28 @@ public class EditarAlumno extends javax.swing.JFrame {
     }
 
     public void CerrarVentana() {
-        try{
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                cerrar();
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    cerrar();
 
-            }
-        });
-        }catch(Exception e){
+                }
+            });
+        } catch (Exception e) {
             System.out.println(e);
         }
-    }  
-    public void cerrar(){
-        int desicion = JOptionPane.showConfirmDialog(null, "Se cancelara cualquier cambio hecho en la informacion del Alumno\n"
-                        + "¿Seguro que quiere salir de la ventana?", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (desicion == 0) {
-                    this.dispose();
-                }
     }
-    public boolean checarPagos(int numerocontrol){
+
+    public void cerrar() {
+        int desicion = JOptionPane.showConfirmDialog(null, "Se cancelara cualquier cambio hecho en la informacion del Alumno\n"
+                + "¿Seguro que quiere salir de la ventana?", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (desicion == 0) {
+            this.dispose();
+        }
+    }
+
+    public boolean checarPagos(int numerocontrol) {
         boolean sindeudas = true;
         int libro = 0, inscripcion = 0, mensualidad = 0, certificacion = 0, saldo = 0;
         String mensaje = "";
@@ -807,10 +818,10 @@ public class EditarAlumno extends javax.swing.JFrame {
         ResultSet rs = null;
         conn = ConexionSQL.conectar();
         try {
-            String sentencia = "SELECT * FROM deuda WHERE ALUMNO_NumeroControl = "+numerocontrol;
+            String sentencia = "SELECT * FROM deuda WHERE ALUMNO_NumeroControl = " + numerocontrol;
             sql = conn.prepareStatement(sentencia);
             rs = sql.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 libro = rs.getInt("Libro");
                 inscripcion = rs.getInt("Inscripcion");
                 mensualidad = rs.getInt("Mensualidad");
@@ -820,36 +831,44 @@ public class EditarAlumno extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        if (libro != 0){
+        if (libro != 0) {
             sindeudas = false;
-            mensaje += "\nLibro: $ " + libro+".00";
+            mensaje += "\nLibro: $ " + libro + ".00";
         }
-        if (inscripcion != 0){
+        if (inscripcion != 0) {
             sindeudas = false;
-            mensaje += "\nInscripcion: $ " + inscripcion+".00";
+            mensaje += "\nInscripcion: $ " + inscripcion + ".00";
         }
-        if (mensualidad != 0){
+        if (mensualidad != 0) {
             sindeudas = false;
-            mensaje += "\nMensualidad: $ " + mensualidad+".00";
+            mensaje += "\nMensualidad: $ " + mensualidad + ".00";
         }
-        if (certificacion > 0){
+        if (certificacion > 0) {
             sindeudas = false;
-            mensaje += "\nCertificacion: $ " + certificacion+".00";
+            mensaje += "\nCertificacion: $ " + certificacion + ".00";
         }
-        if (saldo != 0){
+        if (saldo != 0) {
             sindeudas = false;
             mensaje = "A favor";
+        } else {
+            if (saldo == 0) {
+                sindeudas = true;
+                mensaje = "en cero";
+            }
         }
-        if (!mensaje.equals("") && !mensaje.equals("A favor")){
-            JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con algunas deudas: \n"+
-                    mensaje+ "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        
-        }else{
-            JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con saldo a favor: \n"+
-                    "\nSaldo a favor: $ "+saldo+".00"+ "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        if (!mensaje.equals("") && !mensaje.equals("A favor") && !mensaje.equals("en cero")) {
+            JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con algunas deudas: \n"
+                    + mensaje + "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            if (!mensaje.equals("en cero")) {
+                JOptionPane.showMessageDialog(null, "El alumno no puede darse de baja, dado que\ncuenta con saldo a favor: \n"
+                        + "\nSaldo a favor: $ " + saldo + ".00" + "\n\nVerifica que los datos financieros del Alumno\nse encuentresn en ceros e intenta de nuevo. ", "ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
         }
         return sindeudas;
     }
+
     public void limpiar() {
         nombre.setText("");
         ap1.setText("");

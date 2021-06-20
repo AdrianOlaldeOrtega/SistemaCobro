@@ -15,15 +15,20 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class RegistrarAlumno extends javax.swing.JFrame {
+    ResultSet rs;
+    Statement stt;
     String Acceso = "";
-    RegistrarAlumno(String Acceso) {
+    int idusuario;
+
+    RegistrarAlumno(String Acceso, int idusuario) {
         initComponents();
         CerrarVentana();
+        this.idusuario = idusuario;
         System.out.println("esta pantalla");
         this.Acceso = Acceso;
-        if(Acceso.equalsIgnoreCase("Administrador")){
+        if (Acceso.equalsIgnoreCase("Administrador")) {
             beca.setEnabled(true);
-        }else{
+        } else {
             beca.setEnabled(false);
         }
     }
@@ -395,13 +400,15 @@ public class RegistrarAlumno extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cargar_mensualidad oj = new cargar_mensualidad();
+        oj.cargar();
         boolean correcto = validar();
         int ins = buscarInscrito();
         int cambiarDatos;
         if (ins != 0 && correcto) {
-            cambiarDatos = JOptionPane.showConfirmDialog(null, "El alumno"+nombre.getText()+" "+ap1.getText()+" "+ap2.getText()+" ya se encuentra registrado,\n¿Desea cambiar sus datos?", "CUIDADO", JOptionPane.YES_NO_OPTION);
+            cambiarDatos = JOptionPane.showConfirmDialog(null, "El alumno" + nombre.getText() + " " + ap1.getText() + " " + ap2.getText() + " ya se encuentra registrado,\n¿Desea cambiar sus datos?", "CUIDADO", JOptionPane.YES_NO_OPTION);
             if (cambiarDatos == JOptionPane.YES_OPTION) {
-                EditarAlumno vent = new EditarAlumno(Acceso);
+                EditarAlumno vent = new EditarAlumno(Acceso, idusuario);
                 vent.imprimir(ins, curp.getText());
                 vent.setVisible(true);
                 this.dispose();
@@ -409,7 +416,7 @@ public class RegistrarAlumno extends javax.swing.JFrame {
             } else {
                 return;
             }
-            
+
         }
         System.out.println("Aqui para");
         if (correcto == true && ins == 0) {
@@ -465,7 +472,9 @@ public class RegistrarAlumno extends javax.swing.JFrame {
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
-                }
+                }  
+                String desc = "Da de alta a "+nombre.getText();
+                RegistrarMovimiento r = new RegistrarMovimiento(idusuario,desc);
                 st.close();
                 limpiar();
             } catch (SQLException e) {

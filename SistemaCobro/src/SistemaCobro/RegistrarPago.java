@@ -32,12 +32,14 @@ public class RegistrarPago extends javax.swing.JFrame {
     Statement stt;
     Connection conn;
     Date fecha = new Date();
+    int idusuario;
 
     /**
      * Creates new form NewJFrame
      */
-    public RegistrarPago() {
+    RegistrarPago(int idusuario) {
         initComponents();
+        this.idusuario = idusuario;
         Fecha_error.setVisible(false);
         NoControl_error.setVisible(false);
         Monto_error.setVisible(false);
@@ -275,7 +277,13 @@ public class RegistrarPago extends javax.swing.JFrame {
                             }
                             st.close();
                             ReducirDeuda();
+                            sentencia = "select NombrePila from alumno where NumeroControl = " + Nombre_Alumno.getText();
+                            rs = stt.executeQuery(sentencia);
+                            rs.next();
+                            String desc = "Registra pago " + String.valueOf(Concepto_Pago.getSelectedItem()) + " a " + rs.getString(1);
+                            RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
                         }
+
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -409,7 +417,13 @@ public class RegistrarPago extends javax.swing.JFrame {
                     }
                     //probado
                     if (deuda < 0) {
-                        query = "UPDATE DEUDA SET " + concepto_sent + " = 0, Saldo = " + (deuda * (-1)) + " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        query = "SELECT Saldo FROM DEUDA WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
+                        System.out.println(query);
+                        rs = stt.executeQuery(query);
+                        rs.next();
+                        double total = rs.getDouble(1) + (deuda * (-1));
+                        System.out.println(total);
+                        query = "UPDATE DEUDA SET " + concepto_sent + " = 0, Saldo = " + total + " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();
                         stt.executeUpdate(query);
                     } else {
                         query = "UPDATE DEUDA SET " + concepto_sent + " = " + deuda + " WHERE ALUMNO_NumeroControl = " + Nombre_Alumno.getText();

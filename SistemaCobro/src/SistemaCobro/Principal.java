@@ -26,6 +26,7 @@ public class Principal extends javax.swing.JFrame {
     DecimalFormat df = new DecimalFormat("#.00000000");
     static int contador = 0;
     String Usuario = "";
+    int idusuario;
 
     public Principal() {
         initComponents();
@@ -75,6 +76,7 @@ public class Principal extends javax.swing.JFrame {
         Panel_Menu_Admin = new javax.swing.JPanel();
         btn_cons_mov = new javax.swing.JButton();
         btn_alta_usuarios = new javax.swing.JButton();
+        btn_valores = new javax.swing.JButton();
         Panel_menu = new javax.swing.JPanel();
         btn1 = new javax.swing.JButton();
         btn3 = new javax.swing.JButton();
@@ -318,6 +320,11 @@ public class Principal extends javax.swing.JFrame {
                 btn_cons_movMouseExited(evt);
             }
         });
+        btn_cons_mov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cons_movActionPerformed(evt);
+            }
+        });
         Panel_Menu_Admin.add(btn_cons_mov, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 200, 40));
 
         btn_alta_usuarios.setText("Usuarios");
@@ -336,7 +343,23 @@ public class Principal extends javax.swing.JFrame {
         });
         Panel_Menu_Admin.add(btn_alta_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 200, 40));
 
-        Panel_principal.add(Panel_Menu_Admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 250, 110));
+        btn_valores.setText("Valores del Sistema");
+        btn_valores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_valoresMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_valoresMouseExited(evt);
+            }
+        });
+        btn_valores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_valoresActionPerformed(evt);
+            }
+        });
+        Panel_Menu_Admin.add(btn_valores, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 200, 40));
+
+        Panel_principal.add(Panel_Menu_Admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 250, 160));
 
         Panel_menu.setBackground(new java.awt.Color(167, 167, 167));
         Panel_menu.setOpaque(false);
@@ -534,7 +557,7 @@ public class Principal extends javax.swing.JFrame {
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
         //RegistrarAlumno obj = new RegistrarAlumno();
         //RegistrarDeuda obj = new RegistrarDeuda();
-        RegistrarAlumno oj = new RegistrarAlumno(Acceso);
+        RegistrarAlumno oj = new RegistrarAlumno(Acceso,idusuario);
         oj.setTitle("Registrar Alumno");
         oj.setLocationRelativeTo(null);
         oj.setVisible(true);
@@ -569,7 +592,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setExtendedState(ICONIFIED);
-        RegistrarPago regpag = new RegistrarPago();
+        RegistrarPago regpag = new RegistrarPago(idusuario);
         regpag.setTitle("Registrar Pago");
         regpag.setLocationRelativeTo(null);
         regpag.setVisible(true);
@@ -608,7 +631,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setExtendedState(ICONIFIED);
-        RegistrarDeuda vdeuda = new RegistrarDeuda();
+        RegistrarDeuda vdeuda = new RegistrarDeuda(idusuario);
         vdeuda.setTitle("Registrar Deuda");
         vdeuda.setLocationRelativeTo(null);
         vdeuda.setVisible(true);
@@ -654,7 +677,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consutla_PagoMouseExited
 
     private void Consulta_AlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consulta_AlumnoActionPerformed
-        Alumno obj = new Alumno(Acceso);
+        cargar_mensualidad oj = new cargar_mensualidad();
+        oj.cargar();
+        Alumno obj = new Alumno(Acceso, idusuario);
         obj.setTitle("Consulta Alumno");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -704,7 +729,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cons_movMouseExited
 
     private void Consulta_DeudoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Consulta_DeudoresActionPerformed
-        Consulta_Deudores obj = new Consulta_Deudores();
+        cargar_mensualidad oj = new cargar_mensualidad();
+        oj.cargar();
+        Consulta_Deudores obj = new Consulta_Deudores(idusuario);
         obj.setTitle("Consulta de alumnos con deuda");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -719,7 +746,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_Consutla_PagoActionPerformed
 
     private void btn_alta_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_alta_usuariosActionPerformed
-        Usuarios obj = new Usuarios(Usuario);
+        Usuarios obj = new Usuarios(Usuario,idusuario);
         obj.setTitle("Alta de Usuarios");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -731,7 +758,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
         conn = ConexionSQL.conectar();
-        String sentencia = "SELECT Nombre, pasword ,estado , Nivel_Acceso from Usuario where Nombre = '" + usuario.getText() + "'";
+        String sentencia = "SELECT Id, Nombre, pasword ,estado , Nivel_Acceso from Usuario where Nombre = '" + usuario.getText() + "'";
         try {
             st = conn.prepareStatement(sentencia);
             rs = st.executeQuery();
@@ -746,6 +773,7 @@ public class Principal extends javax.swing.JFrame {
                             btnmenu.setVisible(true);
                             btn_cerrarsesion.setVisible(true);
                             Acceso = rs.getString("Nivel_Acceso");
+                            idusuario = rs.getInt("Id");
                             if (Acceso.equals("Administrador")) {
                                 btn4.setVisible(true);
                             } else {
@@ -782,6 +810,30 @@ public class Principal extends javax.swing.JFrame {
     private void pswActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pswActionPerformed
+
+    private void btn_valoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_valoresMouseEntered
+       Panel_Menu_Admin.setVisible(true);
+        Panel_menu.setVisible(true);
+    }//GEN-LAST:event_btn_valoresMouseEntered
+
+    private void btn_valoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_valoresMouseExited
+        Panel_Menu_Admin.setVisible(false);
+        Panel_menu.setVisible(false);
+    }//GEN-LAST:event_btn_valoresMouseExited
+
+    private void btn_valoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_valoresActionPerformed
+        Variables_del_sistema obj = new Variables_del_sistema(idusuario);
+        obj.setTitle("Sistema");
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btn_valoresActionPerformed
+
+    private void btn_cons_movActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cons_movActionPerformed
+        Consulta_Movimientos obj = new Consulta_Movimientos(idusuario);
+        obj.setTitle("Movimientos");
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btn_cons_movActionPerformed
 
     /**
      * @param args the command line arguments
@@ -844,6 +896,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn_alta_usuarios;
     private javax.swing.JButton btn_cerrarsesion;
     private javax.swing.JButton btn_cons_mov;
+    private javax.swing.JButton btn_valores;
     private javax.swing.JButton btnmenu;
     private javax.swing.JLabel error_psw;
     private javax.swing.JLabel error_usuario;

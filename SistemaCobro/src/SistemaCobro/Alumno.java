@@ -28,13 +28,15 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     Statement stt;
     Connection conn;
     String Acceso="";
+    int idusuario;
 
     JLabel label = new JLabel();
     ImageIcon iconoinfo = new ImageIcon("/Imagenes/info.png");
 
-    Alumno(String Acceso) {
+    Alumno(String Acceso,int idusuario) {
         initComponents();
         this.Acceso = Acceso;
+        this.idusuario=idusuario;
         TableColumn columnaAlumno;
         columnaAlumno = TablaAlumno.getColumnModel().getColumn(1);
         columnaAlumno.setPreferredWidth(220);
@@ -360,7 +362,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     }
 
     private void editar(int NoControl) {
-        EditarAlumno a = new EditarAlumno(Acceso);
+        EditarAlumno a = new EditarAlumno(Acceso,idusuario);
         a.imprimir(NoControl, "");
         a.setVisible(true);
     }

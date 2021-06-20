@@ -25,12 +25,14 @@ public class RegistrarDeuda extends javax.swing.JFrame {
     Statement stt;
     ResultSet rs;
     Connection conn;
+    int idusuario;
 
     /**
      * Creates new form NewJFrame
      */
-    public RegistrarDeuda() {
+    RegistrarDeuda(int idusuario) {
         initComponents();
+        this.idusuario=idusuario;
         Monto_error.setVisible(false);
         NoControl_error.setVisible(false);
         habilita_boton();
@@ -303,7 +305,12 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                     }
                     st.executeUpdate();
                 }
+                sentencia = "select NombrePila from alumno where NumeroControl = "+Nombre_Alumno.getText();
+                rs = stt.executeQuery(sentencia);
+                rs.next();   
+                String desc = "Registra deuda "+ String.valueOf(Concepto_Pago.getSelectedItem())+" a "+rs.getString(1);
                 st.close();
+                RegistrarMovimiento r = new RegistrarMovimiento(idusuario,desc);
             } catch (Exception e) {
                 System.out.println(e);
             }

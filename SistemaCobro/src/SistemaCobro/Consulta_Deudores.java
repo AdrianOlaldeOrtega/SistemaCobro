@@ -16,12 +16,14 @@ public class Consulta_Deudores extends javax.swing.JFrame {
     ResultSet rs;
     Statement stt;
     Connection conn;
+    int idusuario;
     List<Datos> datos = new ArrayList<>();
 
     ; 
 
-    public Consulta_Deudores() {
+    Consulta_Deudores(int idusuario) {
         initComponents();
+        this.idusuario = idusuario;
         actualiza_tabla();
         Ruta.setVisible(false);
     }
@@ -185,6 +187,8 @@ public class Consulta_Deudores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
+        String desc = "Guardó reporte de deuda";
+        RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
         for (int i = 0; i < Tabla_Deuda.getRowCount(); i++) {
             Datos info = new Datos();
             info.setId(String.valueOf(Tabla_Deuda.getValueAt(i, 0)));
@@ -199,15 +203,15 @@ public class Consulta_Deudores extends javax.swing.JFrame {
         FileChooser obj = new FileChooser();
         //obj.setVisible(true);
 
-        
+
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        
+
     }//GEN-LAST:event_formFocusGained
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-        
+
     }//GEN-LAST:event_formFocusLost
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus

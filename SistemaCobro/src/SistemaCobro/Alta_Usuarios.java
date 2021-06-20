@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Yamir Garcia
  */
 public class Alta_Usuarios extends javax.swing.JFrame {
-    
+
     boolean estado = false;
     ConexionSQL conexion = new ConexionSQL();
     PreparedStatement st;
@@ -25,19 +25,21 @@ public class Alta_Usuarios extends javax.swing.JFrame {
     Statement stt;
     Connection conn;
     String Acceso = "";
+    int idusuario;
 
     /**
      * Creates new form Alta_Usuarios
      */
-    Alta_Usuarios(String Acceso) {
+    Alta_Usuarios(String Acceso, int idusuario) {
         initComponents();
+        this.idusuario = idusuario;
         this.Acceso = Acceso;
         verifica_campos();
         error_usuario.setVisible(false);
         error_psw.setVisible(false);
         error_vpsw.setVisible(false);
         error_tipo.setVisible(false);
-        
+
     }
 
     /**
@@ -237,7 +239,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
-        Usuarios obj = new Usuarios(Acceso);
+        Usuarios obj = new Usuarios(Acceso,idusuario);
         obj.setTitle("Alta de Usuarios");
         obj.setLocationRelativeTo(null);
         this.dispose();
@@ -265,16 +267,18 @@ public class Alta_Usuarios extends javax.swing.JFrame {
                         st.setString(4, "Activo");
                         int res = st.executeUpdate();
                         if (res > 0) {
-                            Usuarios obj = new Usuarios(Acceso);
+                            Usuarios obj = new Usuarios(Acceso,idusuario);
                             obj.setTitle("Alta de Usuarios");
                             obj.setLocationRelativeTo(null);
                             this.dispose();
                             JOptionPane.showMessageDialog(null, "Se ha registrado con éxito", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                             obj.setVisible(true);
-                            
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
-                        }
+                        }                        
+                        String desc = "Agregó a "+Usuario.getText()+" como " + String.valueOf(Selector_Acceso.getSelectedItem());
+                        RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
                         st.close();
                     } catch (SQLException e) {
                         System.out.println(e);
@@ -283,7 +287,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
                 } else {
                     error_usuario.setVisible(true);
                 }
-                
+
             } else {
                 error_psw.setVisible(true);
                 error_vpsw.setVisible(true);
@@ -292,7 +296,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
             error_tipo.setVisible(true);
             if (psw.getText().equals(Vpsw.getText())) {
                 error_psw.setVisible(false);
-                error_vpsw.setVisible(false);                
+                error_vpsw.setVisible(false);
             } else {
                 error_psw.setVisible(true);
                 error_vpsw.setVisible(true);
@@ -304,7 +308,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
                 error_usuario.setVisible(true);
             }
         }
-        
+
 
     }//GEN-LAST:event_btn_AgregarActionPerformed
 
@@ -331,7 +335,6 @@ public class Alta_Usuarios extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Selector_Acceso;
@@ -358,7 +361,7 @@ public class Alta_Usuarios extends javax.swing.JFrame {
             btn_Agregar.setEnabled(true);
         }
     }
-    
+
     public void valida_usuario() {
         estado = false;
         conn = ConexionSQL.conectar();
@@ -382,12 +385,12 @@ public class Alta_Usuarios extends javax.swing.JFrame {
             } else {
                 error_usuario.setVisible(false);
                 verifica_campos();
-                
+
             }
             st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
 }

@@ -31,12 +31,14 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
     Statement stt;
     Connection conn;
     String Acceso = "";
+    int idusuario;
 
     /**
      * Creates new form Usuarios
      */
-    Usuarios(String Acceso) {
+    Usuarios(String Acceso, int idusuario) {
         initComponents();
+        this.idusuario = idusuario;
         this.Acceso = Acceso;
         System.out.println(Acceso);
         TableColumn columnatipo;
@@ -141,7 +143,7 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void Alta_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Alta_UsuarioActionPerformed
-        Alta_Usuarios obj = new Alta_Usuarios(Acceso);
+        Alta_Usuarios obj = new Alta_Usuarios(Acceso, idusuario);
         obj.setTitle("Nuevo Usuario");
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
@@ -173,7 +175,7 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
             }
             rs = sql.executeQuery();
             for (int i = 0; rs.next(); i++) {
-                System.out.println(Acceso +" desde tabla usuarios"+ rs.getString("Nombre"));
+                System.out.println(Acceso + " desde tabla usuarios" + rs.getString("Nombre"));
                 if (!Acceso.equals(rs.getString("Nombre"))) {
                     if (rs.getString("estado").equalsIgnoreCase("Activo")) {
                         model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/activo.png")))});
@@ -204,10 +206,14 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
                         sentencia = "UPDATE usuario set estado = 'Desactivado' where Nombre = '" + Usuario + "'";
                         sql = conn.prepareStatement(sentencia);
                         sql.executeUpdate();
+                        String desc = "Desactivo al usuario " + Usuario;
+                        RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
                     } else {
                         sentencia = "UPDATE usuario set estado = 'Activo' where Nombre = '" + Usuario + "'";
                         sql = conn.prepareStatement(sentencia);
-                        sql.executeUpdate();
+                        sql.executeUpdate();                        
+                        String desc = "Activo al usuario " + Usuario;
+                        RegistrarMovimiento r = new RegistrarMovimiento(idusuario, desc);
                     }
                 }
                 actualizar_tabla();
