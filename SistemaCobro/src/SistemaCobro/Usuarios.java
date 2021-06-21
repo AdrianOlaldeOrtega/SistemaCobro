@@ -5,51 +5,19 @@
  */
 package SistemaCobro;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JViewport;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 /**
  *
  * @author LEVEN
  */
-public class Usuarios extends javax.swing.JFrame implements MouseListener {
-
-    ConexionSQL conexion = new ConexionSQL();
-    PreparedStatement st;
-    ResultSet rs;
-    Statement stt;
-    Connection conn;
-    String Acceso = "";
+public class Usuarios extends javax.swing.JFrame {
 
     /**
      * Creates new form Usuarios
      */
-    Usuarios(String Acceso) {
+    public Usuarios() {
         initComponents();
-        this.Acceso = Acceso;
-        System.out.println(Acceso);
-        TableColumn columnatipo;
-        JViewport scroll = (JViewport) Tabla_Usuarios.getParent();
-        int ancho = scroll.getWidth();
-        columnatipo = Tabla_Usuarios.getColumnModel().getColumn(1);
-        columnatipo.setPreferredWidth((70 * ancho) / 100);
-        TableColumn columnausuario;
-        columnausuario = Tabla_Usuarios.getColumnModel().getColumn(0);
-        columnausuario.setPreferredWidth((70 * ancho) / 100);
-        Tabla_Usuarios.setRowHeight(25);
-        Tabla_Usuarios.addMouseListener(this);
-        actualizar_tabla();
     }
 
     /**
@@ -62,38 +30,41 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla_Usuarios = new javax.swing.JTable();
-        Alta_Usuario = new javax.swing.JButton();
+        jTable1 = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        Tabla_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Usuario", "Tipo de Usuario", ""
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(Tabla_Usuarios);
+        jLabel1.setText("Nombre:");
 
-        Alta_Usuario.setText("Nuevo Usuario");
-        Alta_Usuario.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setText("Password:");
+
+        jButton1.setText("Registrar");
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Alta_UsuarioActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -109,28 +80,59 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Alta_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
-                    .addComponent(jSeparator1))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(69, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Alta_Usuario)
-                    .addComponent(btnSalir))
-                .addContainerGap())
+                    .addComponent(jButton1)
+                    .addComponent(btnEliminar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,98 +142,21 @@ public class Usuarios extends javax.swing.JFrame implements MouseListener {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void Alta_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Alta_UsuarioActionPerformed
-        Alta_Usuarios obj = new Alta_Usuarios(Acceso);
-        obj.setTitle("Nuevo Usuario");
-        obj.setLocationRelativeTo(null);
-        obj.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_Alta_UsuarioActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+ JOptionPane.showInternalConfirmDialog(null, "Seguro que desea eliminar este usuario?\nEsta accion no se puede revertir", "CUIDADO", JOptionPane.YES_NO_OPTION);
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Alta_Usuario;
-    private javax.swing.JTable Tabla_Usuarios;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-
-    public void actualizar_tabla() {
-        Tabla_Usuarios.setDefaultRenderer(Object.class, new ImgTable());
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-        conn = ConexionSQL.conectar();
-        DefaultTableModel model = (DefaultTableModel) Tabla_Usuarios.getModel();
-        try {
-            sql = conn.prepareStatement("SELECT Nombre, Nivel_Acceso, estado FROM usuario ORDER BY Nombre");
-            if (model.getRowCount() != 0) {
-                int a = 0;
-                while (a < model.getRowCount()) {
-                    model.removeRow(a);
-                }
-            }
-            rs = sql.executeQuery();
-            for (int i = 0; rs.next(); i++) {
-                System.out.println(Acceso +" desde tabla usuarios"+ rs.getString("Nombre"));
-                if (!Acceso.equals(rs.getString("Nombre"))) {
-                    if (rs.getString("estado").equalsIgnoreCase("Activo")) {
-                        model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/activo.png")))});
-                    } else {
-                        model.addRow(new Object[]{rs.getString("Nombre"), rs.getString("Nivel_Acceso"), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/desactivado.png")))});
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        int fila = Tabla_Usuarios.rowAtPoint(e.getPoint());
-        int columna = Tabla_Usuarios.columnAtPoint(e.getPoint());
-        if (columna == 2) {
-            String Usuario = String.valueOf(Tabla_Usuarios.getValueAt(fila, 0));
-            String sentencia = "SELECT estado from usuario where nombre = '" + Usuario + "'";
-            conn = ConexionSQL.conectar();
-            try {
-                PreparedStatement sql = null;
-                sql = conn.prepareStatement(sentencia);
-                rs = sql.executeQuery();
-                if (rs.next()) {
-                    if (rs.getString("estado").equals("Activo")) {
-                        sentencia = "UPDATE usuario set estado = 'Desactivado' where Nombre = '" + Usuario + "'";
-                        sql = conn.prepareStatement(sentencia);
-                        sql.executeUpdate();
-                    } else {
-                        sentencia = "UPDATE usuario set estado = 'Activo' where Nombre = '" + Usuario + "'";
-                        sql = conn.prepareStatement(sentencia);
-                        sql.executeUpdate();
-                    }
-                }
-                actualizar_tabla();
-            } catch (Exception en) {
-                System.out.println(en);
-            }
-
-            //masinfo(Nocontrol);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
 }

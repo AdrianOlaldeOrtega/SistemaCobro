@@ -27,14 +27,12 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     ResultSet rs;
     Statement stt;
     Connection conn;
-    String Acceso="";
 
     JLabel label = new JLabel();
     ImageIcon iconoinfo = new ImageIcon("/Imagenes/info.png");
 
-    Alumno(String Acceso) {
+    public Alumno() {
         initComponents();
-        this.Acceso = Acceso;
         TableColumn columnaAlumno;
         columnaAlumno = TablaAlumno.getColumnModel().getColumn(1);
         columnaAlumno.setPreferredWidth(220);
@@ -104,18 +102,23 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaAlumno = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         LabelNumeroControl = new javax.swing.JLabel();
         NumeroControl = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnMin = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
                 formWindowGainedFocus(evt);
@@ -124,6 +127,11 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(10, 31, 34));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        TablaAlumno.setBackground(new java.awt.Color(167, 167, 167));
         TablaAlumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -157,92 +165,101 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             TablaAlumno.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        btnSalir.setText("Cancelar");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 710, 340));
+
+        btnSalir.setBackground(new java.awt.Color(10, 31, 34));
+        btnSalir.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setText("CANCELAR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, 40));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Busqueda por Alumno");
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 40)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("BUSQUEDA POR ALUMNO");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Alumnos");
-
-        LabelNumeroControl.setText("Numero de Control: ");
-
-        NumeroControl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumeroControlActionPerformed(evt);
-            }
-        });
-
-        btnBuscar.setText("Buscar");
+        btnBuscar.setBackground(new java.awt.Color(10, 31, 34));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("BUSCAR");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 110, 40));
 
-        btnMostrar.setText("Mostrar todos");
+        btnMostrar.setBackground(new java.awt.Color(10, 31, 34));
+        btnMostrar.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btnMostrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnMostrar.setText("MOSTRAR TODOS");
         btnMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMostrarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 590, 180, 40));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semilight", 0, 40)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("ALUMNOS");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+
+        LabelNumeroControl.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        LabelNumeroControl.setForeground(new java.awt.Color(255, 255, 255));
+        LabelNumeroControl.setText("NÚMERO DE CONTROL:");
+        jPanel1.add(LabelNumeroControl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+
+        NumeroControl.setBackground(new java.awt.Color(10, 31, 34));
+        NumeroControl.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        NumeroControl.setForeground(new java.awt.Color(63, 189, 211));
+        NumeroControl.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        NumeroControl.setBorder(null);
+        NumeroControl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NumeroControlActionPerformed(evt);
+            }
+        });
+        jPanel1.add(NumeroControl, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 160, 40));
+
+        jSeparator2.setForeground(new java.awt.Color(63, 189, 211));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 160, 17));
+
+        btnMin.setBackground(new java.awt.Color(10, 31, 34));
+        btnMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
+        btnMin.setBorder(null);
+        btnMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, -1, -1));
+
+        btnExit.setBackground(new java.awt.Color(10, 31, 34));
+        btnExit.setFont(new java.awt.Font("Segoe UI Semilight", 0, 11)); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_cancel_40px.png"))); // NOI18N
+        btnExit.setBorder(null);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnMostrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir)
-                        .addGap(22, 22, 22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(LabelNumeroControl)
-                                    .addComponent(jLabel1))
-                                .addGap(18, 18, 18)
-                                .addComponent(NumeroControl, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelNumeroControl)
-                    .addComponent(NumeroControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addGap(29, 29, 29)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
-                    .addComponent(btnMostrar))
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -306,6 +323,14 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
         Actualiza_Tabla();
     }//GEN-LAST:event_formWindowGainedFocus
 
+    private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
+        this.setExtendedState(ICONIFIED);
+    }//GEN-LAST:event_btnMinActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
     private void eliminar(String NControl) {
         int desicion = JOptionPane.showConfirmDialog(null, "La informacion del alumno se borrara de la base de datos.\n"
                 + "¿Seguro que se desea eliminar al Alumno?", "Eliminar", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -318,9 +343,8 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
             try {
                 sql = conn.prepareStatement("DELETE FROM alumno WHERE NumeroControl = " + NControl + ";");
-                System.out.println("aqui");
-                int s = sql.executeUpdate();
                 
+                int s = sql.executeUpdate();
                 if (s != 0) {
                     JOptionPane.showMessageDialog(null, "El alumno fue eliminado de la base de datos.", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
                     Actualiza_Tabla();
@@ -328,7 +352,6 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
                     JOptionPane.showMessageDialog(null, "Ups! Algo salio mal", "Error!", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException e) {
-                
                 System.out.println(e);
             }
         }
@@ -341,7 +364,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
         conn = ConexionSQL.conectar();
         DefaultTableModel model = (DefaultTableModel) TablaAlumno.getModel();
         try {
-            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY Status;");
+            sql = conn.prepareStatement("SELECT NumeroControl,NombrePila,PrimerApellido,SegundoApellido,Status FROM alumno ORDER BY NumeroControl;");
             if (model.getRowCount() != 0) {
                 int a = 0;
                 while (a < model.getRowCount()) {
@@ -351,8 +374,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             rs = sql.executeQuery();
             for (int i = 0; rs.next(); i++) {
                 String nombreCompleto = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
-                //model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
-                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png")))});
+                model.addRow(new Object[]{rs.getInt("NumeroControl"), nombreCompleto, status(rs.getString("Status")), new JLabel(new ImageIcon(getClass().getResource("/Imagenes/info.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/editar.png"))),new JLabel(new ImageIcon(getClass().getResource("/Imagenes/eliminar.png")))});
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -360,8 +382,9 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     }
 
     private void editar(int NoControl) {
-        EditarAlumno a = new EditarAlumno(Acceso);
+        EditarAlumno a = new EditarAlumno();
         a.imprimir(NoControl, "");
+        a.setLocationRelativeTo(null);
         a.setVisible(true);
     }
 
@@ -403,12 +426,16 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JTextField NumeroControl;
     private javax.swing.JTable TablaAlumno;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMin;
     private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -419,6 +446,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
             Informacion_Alumno obj = new Informacion_Alumno(Nocontrol);
             obj.setTitle("Información Alumno");
+            obj.setLocationRelativeTo(null);
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
             
@@ -428,7 +456,7 @@ public class Alumno extends javax.swing.JFrame implements MouseListener {
             editar(Nocontrol);
         } else if (columna == 5){
             String Nocontrol = String.valueOf(TablaAlumno.getValueAt(fila, 0));
-            //eliminar(Nocontrol); 
+            eliminar(Nocontrol); 
         }
     }
 

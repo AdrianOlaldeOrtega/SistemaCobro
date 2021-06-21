@@ -21,8 +21,7 @@ public class ConexionSQL {
         try {
             String url = "jdbc:mysql://localhost:3306/englishschoolprestige";
             String user = "root";
-            String password = "yamir";
-
+            String password = "Nikiforov26";
             connect = DriverManager.getConnection(url, user, password);
             if (connect != null) {
                 System.out.println("Conexion exitosa");

@@ -30,6 +30,7 @@ public class Consulta_Deudores extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_Deuda = new javax.swing.JTable();
         btn_Salir = new javax.swing.JButton();
@@ -40,8 +41,12 @@ public class Consulta_Deudores extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btn_Mostrar = new javax.swing.JButton();
         Ruta = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnMin = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 formFocusGained(evt);
@@ -57,6 +62,9 @@ public class Consulta_Deudores extends javax.swing.JFrame {
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
             }
         });
+
+        jPanel1.setBackground(new java.awt.Color(10, 31, 34));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tabla_Deuda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -79,93 +87,107 @@ public class Consulta_Deudores extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Tabla_Deuda);
 
-        btn_Salir.setText("Salir");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 580, -1));
+
+        btn_Salir.setBackground(new java.awt.Color(10, 31, 34));
+        btn_Salir.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btn_Salir.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Salir.setText("CANCELAR");
         btn_Salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_SalirActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 610, 120, 35));
 
-        btn_Guardar.setText("Guardar");
+        btn_Guardar.setBackground(new java.awt.Color(10, 31, 34));
+        btn_Guardar.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Guardar.setText("GUARDAR");
         btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_GuardarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 200, 35));
 
+        id_alumno.setBackground(new java.awt.Color(10, 31, 34));
+        id_alumno.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        id_alumno.setForeground(new java.awt.Color(63, 189, 211));
+        id_alumno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        id_alumno.setBorder(null);
+        jPanel1.add(id_alumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 200, 40));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Id:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
-        btn_Buscar.setText("Buscar");
+        btn_Buscar.setBackground(new java.awt.Color(10, 31, 34));
+        btn_Buscar.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btn_Buscar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Buscar.setText("BUSCAR");
         btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_BuscarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 100, 35));
 
-        jLabel2.setText("Busqueda por alumno");
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semilight", 0, 40)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("DEUDAS POR ALUMNO");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
-        btn_Mostrar.setText("Mostrar todos");
+        btn_Mostrar.setBackground(new java.awt.Color(10, 31, 34));
+        btn_Mostrar.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        btn_Mostrar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Mostrar.setText("MOSTRAR TODOS");
         btn_Mostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_MostrarActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_Mostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 200, 35));
 
+        Ruta.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        Ruta.setForeground(new java.awt.Color(255, 255, 255));
         Ruta.setText("Ruta");
+        jPanel1.add(Ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 610, -1, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(63, 189, 211));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 200, 17));
+
+        btnMin.setBackground(new java.awt.Color(10, 31, 34));
+        btnMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
+        btnMin.setBorder(null);
+        btnMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, -1, -1));
+
+        btnExit.setBackground(new java.awt.Color(10, 31, 34));
+        btnExit.setFont(new java.awt.Font("Segoe UI Semilight", 0, 11)); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_cancel_40px.png"))); // NOI18N
+        btnExit.setBorder(null);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(id_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_Mostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(id_alumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(btn_Buscar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_Mostrar)
-                        .addGap(3, 3, 3)
-                        .addComponent(btn_Guardar)))
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Salir)
-                    .addComponent(Ruta))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
         );
 
         pack();
@@ -218,10 +240,20 @@ public class Consulta_Deudores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowGainedFocus
 
+    private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
+        this.setExtendedState(ICONIFIED);
+    }//GEN-LAST:event_btnMinActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JLabel Ruta;
     private javax.swing.JTable Tabla_Deuda;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMin;
     private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Guardar;
     private javax.swing.JButton btn_Mostrar;
@@ -229,7 +261,9 @@ public class Consulta_Deudores extends javax.swing.JFrame {
     private javax.swing.JTextField id_alumno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
     public void actualiza_tabla() {

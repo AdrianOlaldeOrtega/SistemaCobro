@@ -67,6 +67,7 @@ public class ConsultaPagos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         Tipo_Busqueda = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla_Pagos = new javax.swing.JTable();
@@ -76,17 +77,26 @@ public class ConsultaPagos extends javax.swing.JFrame {
         Selector_Anio = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        btnMin = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setBackground(new java.awt.Color(10, 31, 34));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Tipo_Busqueda.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        Tipo_Busqueda.setForeground(new java.awt.Color(255, 255, 255));
         Tipo_Busqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Especifico" }));
         Tipo_Busqueda.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 Tipo_BusquedaItemStateChanged(evt);
             }
         });
-        getContentPane().add(Tipo_Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanel1.add(Tipo_Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
 
         Tabla_Pagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,16 +119,23 @@ public class ConsultaPagos extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(Tabla_Pagos);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 106, 516, 233));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 516, 233));
 
-        jButton1.setText("Cancelar");
+        jButton1.setBackground(new java.awt.Color(10, 31, 34));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("CANCELAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(431, 357, 85, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, 120, 35));
 
+        Panel_Busqueda.setBackground(new java.awt.Color(10, 31, 34));
+
+        Selector_Mes.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        Selector_Mes.setForeground(new java.awt.Color(255, 255, 255));
         Selector_Mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin especificar", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", " " }));
         Selector_Mes.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -126,6 +143,8 @@ public class ConsultaPagos extends javax.swing.JFrame {
             }
         });
 
+        Selector_Anio.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        Selector_Anio.setForeground(new java.awt.Color(255, 255, 255));
         Selector_Anio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Selector_Anio.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -133,8 +152,12 @@ public class ConsultaPagos extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Mes");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Año");
 
         javax.swing.GroupLayout Panel_BusquedaLayout = new javax.swing.GroupLayout(Panel_Busqueda);
@@ -142,15 +165,15 @@ public class ConsultaPagos extends javax.swing.JFrame {
         Panel_BusquedaLayout.setHorizontalGroup(
             Panel_BusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_BusquedaLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Selector_Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Selector_Anio, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         Panel_BusquedaLayout.setVerticalGroup(
             Panel_BusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +187,36 @@ public class ConsultaPagos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(Panel_Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 11, -1, 37));
+        jPanel1.add(Panel_Busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 380, 50));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semilight", 0, 40)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("CONSULTA DE PAGOS");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        btnMin.setBackground(new java.awt.Color(10, 31, 34));
+        btnMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
+        btnMin.setBorder(null);
+        btnMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, -1, -1));
+
+        btnExit.setBackground(new java.awt.Color(10, 31, 34));
+        btnExit.setFont(new java.awt.Font("Segoe UI Semilight", 0, 11)); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_cancel_40px.png"))); // NOI18N
+        btnExit.setBorder(null);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -196,6 +248,14 @@ public class ConsultaPagos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
+        this.setExtendedState(ICONIFIED);
+    }//GEN-LAST:event_btnMinActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -207,9 +267,13 @@ public class ConsultaPagos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Selector_Mes;
     private javax.swing.JTable Tabla_Pagos;
     private javax.swing.JComboBox<String> Tipo_Busqueda;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMin;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
