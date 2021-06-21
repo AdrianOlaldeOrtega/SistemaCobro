@@ -34,7 +34,6 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         Monto_error.setVisible(false);
         NoControl_error.setVisible(false);
         habilita_boton();
-        jButton1.setEnabled(false);
 
     }
 
@@ -79,7 +78,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Nombre_Alumno.setBackground(new java.awt.Color(10, 31, 34));
-        Nombre_Alumno.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        Nombre_Alumno.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
         Nombre_Alumno.setForeground(new java.awt.Color(63, 189, 211));
         Nombre_Alumno.setBorder(null);
         Nombre_Alumno.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -128,9 +127,14 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 460, 120, 60));
 
         Monto_Pago.setBackground(new java.awt.Color(10, 31, 34));
-        Monto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        Monto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
         Monto_Pago.setForeground(new java.awt.Color(63, 189, 211));
         Monto_Pago.setBorder(null);
+        Monto_Pago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Monto_PagoActionPerformed(evt);
+            }
+        });
         Monto_Pago.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Monto_PagoKeyReleased(evt);
@@ -172,7 +176,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 btnMinActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, -1, -1));
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, -1, -1));
 
         btnExit.setBackground(new java.awt.Color(10, 31, 34));
         btnExit.setFont(new java.awt.Font("Segoe UI Semilight", 0, 11)); // NOI18N
@@ -183,7 +187,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
-        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, -1, -1));
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, -1, -1));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_student_male_40px.png"))); // NOI18N
@@ -216,10 +220,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
         );
 
         pack();
@@ -235,8 +236,6 @@ public class RegistrarDeuda extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String motivo = String.valueOf(Concepto_Pago.getSelectedItem());
-        boolean estado = estadoAlumno();
-        if (estado == true){
         if (!Nombre_Alumno.getText().isEmpty() && !Monto_Pago.getText().isEmpty()) {
             try {
                 conn = ConexionSQL.conectar();
@@ -304,41 +303,17 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                     st.executeUpdate();
                 }
                 st.close();
+                JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
+                limpiar();
             } catch (Exception e) {
                 System.out.println(e);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Revise que todos los campos esten llenos");
         }
-        this.dispose();
-        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-    public boolean estadoAlumno() {
-        boolean si = true;
-        try {
-            conn = ConexionSQL.conectar();
-            stt = conn.createStatement();
-            //hacemos una consulta para ver el estatus del alumno
-            String sentencia = "SELECT NombrePila,PrimerApellido,SegundoApellido,Status FROM Alumno where NumeroControl = " + Nombre_Alumno.getText();
-            rs = stt.executeQuery(sentencia);
-            st = conn.prepareStatement(sentencia);
-            //Verificamos si arroja un resultado
-            if (rs.next()) {
-                String estado = rs.getString("Status");
-                String alumno = rs.getString("NombrePila") + " " + rs.getString("PrimerApellido") + " " + rs.getString("SegundoApellido");
-                if (estado.equalsIgnoreCase("Ausente")) {
-                JOptionPane.showMessageDialog(null, "El alumno "+alumno+" actualmente se encuentra dado de baja. Por lo\n"
-                        + "que no es posible realizar ningun movimiento con sus datos financieros.", "Error!", JOptionPane.ERROR_MESSAGE);
-                   si = false;
-                }
-                System.out.println(estado);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return si;
 
-    }
     private void btnMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinActionPerformed
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_btnMinActionPerformed
@@ -367,6 +342,14 @@ public class RegistrarDeuda extends javax.swing.JFrame {
         validar_monto();
     }//GEN-LAST:event_Monto_PagoKeyReleased
 
+    private void Monto_PagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Monto_PagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Monto_PagoActionPerformed
+public void limpiar(){
+        Nombre_Alumno.setText("");
+        Monto_Pago.setText("");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Concepto_Pago;
     private javax.swing.JTextField Monto_Pago;
@@ -401,25 +384,25 @@ public class RegistrarDeuda extends javax.swing.JFrame {
                 try {
                     sql = conn.prepareStatement(sentencia);
                     rs = sql.executeQuery();
-                    if (rs.next()) {                        
+                    if (rs.next()) {
+                        //habilita_boton();
                         NoControl_error.setVisible(false);
                         jButton1.setEnabled(true);
-                        habilita_boton();
+                        //validar_monto();
                         
                     } else {
-                        habilita_boton();
+                        //habilita_boton();
                         jButton1.setEnabled(false);
                         NoControl_error.setText("id incorrecto");
                         NoControl_error.setVisible(true);
-                        
                     }
                     sql.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(RegistrarDeuda.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+            } 
         } catch (Exception e) {
-            habilita_boton();
+            //habilita_boton();
             jButton1.setEnabled(false);
             NoControl_error.setText("id incorrecto");
             NoControl_error.setVisible(true);
@@ -435,19 +418,22 @@ public class RegistrarDeuda extends javax.swing.JFrame {
             //tratamos de convertirlo a double para validar que no se ingresen caracteres indebidos
             //si falla la conversacion se atrapara el error
             double monto = Double.valueOf(montoPago);
-            System.out.println(monto);
-            if (montoPago.length() < 10 && montoPago.contains(".")) {           
+            if (montoPago.length() < 10 && montoPago.contains(".")) {
+                //habilita_boton();
                 jButton1.setEnabled(true);
                 Monto_error.setVisible(false);
-                habilita_boton();                
+                //validar_no_control();
+                
 
             } else {
-                if (montoPago.length() < 7 && !montoPago.contains(".")) {                    
+                if (montoPago.length() < 7 && !montoPago.contains(".")) {
+                    //habilita_boton();
                     jButton1.setEnabled(true);
                     Monto_error.setVisible(false);
-                    habilita_boton();
+                    //validar_no_control();
+                    
                 } else {
-                    habilita_boton();
+                    //habilita_boton();
                     jButton1.setEnabled(false);
                     Monto_error.setText("Monto inválido");
                     Monto_error.setVisible(true);
@@ -457,7 +443,7 @@ public class RegistrarDeuda extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            habilita_boton();
+            //habilita_boton();
             jButton1.setEnabled(false);
             Monto_error.setText("Monto inválido");
             Monto_error.setVisible(true);

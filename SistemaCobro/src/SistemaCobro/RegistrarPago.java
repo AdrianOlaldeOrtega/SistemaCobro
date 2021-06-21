@@ -100,7 +100,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
-        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, -1));
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
 
         btnMin.setBackground(new java.awt.Color(10, 31, 34));
         btnMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes2/icons8_minus_40px.png"))); // NOI18N
@@ -110,7 +110,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 btnMinActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, -1));
+        jPanel1.add(btnMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -151,7 +151,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                 Monto_PagoKeyReleased(evt);
             }
         });
-        jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 280, 40));
+        jPanel1.add(Monto_Pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 290, 40));
 
         Concepto_Pago.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         Concepto_Pago.setForeground(new java.awt.Color(255, 255, 255));
@@ -269,6 +269,7 @@ public class RegistrarPago extends javax.swing.JFrame {
                             int res = st.executeUpdate();
                             if (res > 0) {
                                 JOptionPane.showMessageDialog(null, "Se ha registrado con éxito");
+                                limpiar();
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "Ups! Algo salio mal");
@@ -435,32 +436,7 @@ public class RegistrarPago extends javax.swing.JFrame {
         }
     }
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Concepto_Pago;
-    private com.toedter.calendar.JDateChooser Fecha_Pago;
-    private javax.swing.JLabel Fecha_error;
-    private javax.swing.JTextField Monto_Pago;
-    private javax.swing.JLabel Monto_error;
-    private javax.swing.JLabel NoControl_error;
-    private javax.swing.JTextField Nombre_Alumno;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnMin;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    // End of variables declaration//GEN-END:variables
-public void habilita_boton() {
+    public void habilita_boton() {
         if (Nombre_Alumno.getText().equalsIgnoreCase("") || Monto_Pago.getText().equalsIgnoreCase("")) {
             jButton1.setEnabled(false);
         } else {
@@ -544,7 +520,6 @@ public void habilita_boton() {
             NoControl_error.setText("id incorrecto");
             NoControl_error.setVisible(true);
             estado = false;
-            jButton1.setEnabled(false);
         }
         return estado;
 
@@ -599,4 +574,37 @@ public void habilita_boton() {
         }
         return estado;
     }
+    
+    public void limpiar(){
+        Nombre_Alumno.setText("");
+        Monto_Pago.setText("");
+        Fecha_Pago.setCalendar(null);
+    }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Concepto_Pago;
+    private com.toedter.calendar.JDateChooser Fecha_Pago;
+    private javax.swing.JLabel Fecha_error;
+    private javax.swing.JTextField Monto_Pago;
+    private javax.swing.JLabel Monto_error;
+    private javax.swing.JLabel NoControl_error;
+    private javax.swing.JTextField Nombre_Alumno;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMin;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    // End of variables declaration//GEN-END:variables
+
 }
